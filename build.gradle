@@ -1,0 +1,67 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:3.5.3"
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url "http://acra.googlecode.com/svn/repository/releases" }
+        maven { url "https://repo.maven.apache.org/maven2" }
+        maven { url "http://cloudant.github.io/cloudant-sync-eap/repository" }
+        maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
+        google()
+        jcenter()
+    }
+}
+
+project.ext.preDexLibs = !project.hasProperty('disablePreDex')
+
+subprojects {
+
+    group = 'org.smartregister'
+
+    ext.androidToolsBuildGradle = '3.5.3'
+    ext.androidBuildToolsVersion = '28.0.3'
+    ext.androidMinSdkVersion = 18
+    ext.androidCompileSdkVersion = 28
+    ext.androidTargetSdkVersion = 28
+
+    ext.androidAnnotationsVersion = '3.0.1'
+    ext.androidAnnotationsAPIVersion = '3.0.1'
+
+    ext.jacocoVersion = "0.8.5"
+    ext.coverallsVersion = "2.8.1"
+
+    // Improve build server performance by allowing disabling of pre-dexing
+    // (see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.)
+    project.plugins.whenPluginAdded { plugin ->
+        if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
+            project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+        }
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'build-dashboard'
+
+buildDashboard {
+    reports.html.setDestination(file("build/"))
+}
+
+test.reports.html.enabled = false
+test.reports.junitXml.enabled = false
