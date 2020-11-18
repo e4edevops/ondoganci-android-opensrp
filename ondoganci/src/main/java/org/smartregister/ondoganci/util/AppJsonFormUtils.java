@@ -2,6 +2,7 @@ package org.smartregister.ondoganci.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.common.reflect.TypeToken;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
@@ -21,12 +22,18 @@ import org.smartregister.util.AssetHandler;
 import org.smartregister.util.FormUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import timber.log.Timber;
 
+import static org.smartregister.util.Utils.getValue;
+
 public class AppJsonFormUtils extends JsonFormUtils {
+
+    private static Map<String, String> detailsMap;
+    public static final String PMTCT_STATUS_LOWER_CASE = "pmtct_status";
 
     public static String updateJsonFormWithClientDetails(Context context, Map<String, String> childDetails, List<String> nonEditableFields) {
 
@@ -38,12 +45,12 @@ public class AppJsonFormUtils extends JsonFormUtils {
 
             birthRegistrationForm.put(JsonFormUtils.ENTITY_ID, childDetails.get(Constants.KEY.BASE_ENTITY_ID));
             birthRegistrationForm.put(JsonFormUtils.RELATIONAL_ID, childDetails.get(RELATIONAL_ID));
-            birthRegistrationForm.put(AppConstants.KEY.FATHER_RELATIONAL_ID, childDetails.get(AppConstants.KEY.FATHER_RELATIONAL_ID));
+//            birthRegistrationForm.put(AppConstants.KEY.FATHER_RELATIONAL_ID, childDetails.get(AppConstants.KEY.FATHER_RELATIONAL_ID));
 
             birthRegistrationForm.put(JsonFormUtils.CURRENT_ZEIR_ID,
-                    Utils.getValue(childDetails, AppConstants.KEY.APP_ID, true).replace("-", ""));
-            birthRegistrationForm.put(JsonFormUtils.CURRENT_OPENSRP_ID,
-                    Utils.getValue(childDetails, Constants.JSON_FORM_KEY.UNIQUE_ID, false));
+                    Utils.getValue(childDetails, AppConstants.KEY.ZEIR_ID, true).replace("-", ""));
+//            birthRegistrationForm.put(JsonFormUtils.CURRENT_OPENSRP_ID,
+//                    Utils.getValue(childDetails, Constants.JSON_FORM_KEY.UNIQUE_ID, false));
 
             JSONObject metadata = birthRegistrationForm.getJSONObject(JsonFormUtils.METADATA);
             metadata.put(JsonFormUtils.ENCOUNTER_LOCATION, ChildLibrary.getInstance()

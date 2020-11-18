@@ -4,6 +4,9 @@ import org.smartregister.ondoganci.BuildConfig;
 
 public class AppConstants {
 
+
+    public static final String MOTHER_DEFAULT_DOB = "01-01-1960";
+
     public static final int OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE = BuildConfig.OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE;
     public static final int OPENMRS_UNIQUE_ID_BATCH_SIZE = BuildConfig.OPENMRS_UNIQUE_ID_BATCH_SIZE;
     public static final int OPENMRS_UNIQUE_ID_SOURCE = BuildConfig.OPENMRS_UNIQUE_ID_SOURCE;
@@ -106,6 +109,7 @@ public class AppConstants {
         public static final String CHILD_REG = "child_reg";
         public static final String GA_AT_BIRTH = "ga_at_birth";
         public static final String PLACE_OF_BIRTH = "place_of_birth";
+        public static final String LOCATION_NAME = "location_name";
     }
 
     public static final class DrawerMenu {

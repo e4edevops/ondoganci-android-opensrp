@@ -16,9 +16,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.smartregister.child.util.MoveToMyCatchmentUtils;
+import org.smartregister.sync.helper.ECSyncHelper;
+
+import timber.log.Timber;
 
 
-public class ECSyncUpdater {
+public class ECSyncUpdater extends ECSyncHelper {
 
     private final EventClientRepository db;
     private final Context context;
@@ -28,12 +31,13 @@ public class ECSyncUpdater {
 
     public static ECSyncUpdater getInstance(Context context) {
         if (instance == null) {
-            instance = new ECSyncUpdater(context);
+            instance = new ECSyncUpdater(context, OndoganciApplication.getInstance().eventClientRepository());
         }
         return instance;
     }
 
-    private ECSyncUpdater(Context context) {
+    private ECSyncUpdater(Context context, EventClientRepository eventClientRepository) {
+        super(context, eventClientRepository);
         this.context = context;
         db = OndoganciApplication.getInstance().eventClientRepository();
         mSharedPreferences = CoreLibrary.getInstance().context().allSharedPreferences();
@@ -53,7 +57,7 @@ public class ECSyncUpdater {
 
             return true;
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Exception", e);
+            Timber.e(e, "Exception");
             return false;
         }
     }
@@ -62,7 +66,7 @@ public class ECSyncUpdater {
         try {
             return db.fetchEventClients(startSyncTimeStamp, lastSyncTimeStamp);
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Exception", e);
+            Timber.e(e, "Exception");
         }
         return new ArrayList<>();
     }
@@ -71,7 +75,7 @@ public class ECSyncUpdater {
         try {
             return db.fetchEventClients(lastSyncDate, syncStatus);
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Exception", e);
+            Timber.e(e, "Exception");
         }
         return new ArrayList<>();
     }
@@ -89,7 +93,7 @@ public class ECSyncUpdater {
         try {
             db.addorUpdateClient(baseEntityId, jsonObject);
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Exception", e);
+            Timber.e(e, "Exception");
         }
     }
 
@@ -97,7 +101,7 @@ public class ECSyncUpdater {
         try {
             db.addEvent(baseEntityId, jsonObject);
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Exception", e);
+            Timber.e(e, "Exception");
         }
     }
 
@@ -105,7 +109,7 @@ public class ECSyncUpdater {
         try {
             OndoganciApplication.getInstance().hia2ReportRepository().addReport(jsonObject);
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Exception", e);
+            Timber.e(e, "Exception");
         }
     }
 
@@ -125,7 +129,7 @@ public class ECSyncUpdater {
         mSharedPreferences.updateLastCheckTimeStamp(lastSyncTimeStamp);
     }
 
-    public void batchSave(JSONArray events, JSONArray clients) throws Exception {
+    public void batchSave(JSONArray events, JSONArray clients){
         batchInsertClients(clients);
         batchInsertEvents(events);
     }
@@ -134,7 +138,7 @@ public class ECSyncUpdater {
         db.batchInsertClients(clients);
     }
 
-    private void batchInsertEvents(JSONArray events) {
+    public void batchInsertEvents(JSONArray events) {
         db.batchInsertEvents(events, getLastSyncTimeStamp());
     }
 

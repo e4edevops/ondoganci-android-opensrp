@@ -7,7 +7,7 @@ import org.smartregister.domain.jsonmapping.Location;
 import org.smartregister.domain.jsonmapping.util.LocationTree;
 import org.smartregister.domain.jsonmapping.util.TreeNode;
 import org.smartregister.ondoganci.application.OndoganciApplication;
-import org.smartregister.ondoganci.domain.jsonmapping.FormLocation;
+import org.smartregister.domain.form.FormLocation;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.util.AssetHandler;
 
@@ -22,6 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.smartregister.child.util.Utils;
+
+import timber.log.Timber;
 
 /**
  * Created by keyman on 3/1/2018.
@@ -82,7 +84,7 @@ public class LocationHelper {
                 }
             }
         } catch (Exception e) {
-            Log.e(Utils.class.getCanonicalName(), Log.getStackTraceString(e));
+            Timber.e(Log.getStackTraceString(e));
         }
         return locations;
     }
@@ -118,7 +120,7 @@ public class LocationHelper {
                 }
             }
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+            Timber.e(Log.getStackTraceString(e));
         }
         return response;
     }
@@ -141,10 +143,10 @@ public class LocationHelper {
                     }
                 }
             } else {
-                Log.e(TAG, "locationData doesn't have locationHierarchy");
+                Timber.e("locationData doesn't have locationHierarchy");
             }
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+            Timber.e(Log.getStackTraceString(e));
         }
 
         return response;
@@ -158,7 +160,7 @@ public class LocationHelper {
      */
     public List<String> getOpenMrsLocationHierarchy(String locationId) {
         if (StringUtils.isBlank(locationId)) {
-            Log.e(TAG, "Location id is null");
+            Timber.e("Location id is null");
             return new ArrayList<>();
         }
         List<String> response = null;
@@ -174,10 +176,10 @@ public class LocationHelper {
                     }
                 }
             } else {
-                Log.e(TAG, "locationData doesn't have locationHierarchy");
+                Timber.e("locationData doesn't have locationHierarchy");
             }
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
+            Timber.e(Log.getStackTraceString(e));
         }
         return response;
     }
@@ -371,7 +373,7 @@ public class LocationHelper {
         return null;
     }
 
-    private List<String> getDefaultLocationHierarchy(String defaultLocationUuid, TreeNode<String,
+    public List<String> getDefaultLocationHierarchy(String defaultLocationUuid, TreeNode<String,
             Location> openMrsLocationData, List<String> parents, ArrayList<String> allowedLevels) {
         try {
             List<String> heirachy = new ArrayList<>(parents);
@@ -542,7 +544,7 @@ public class LocationHelper {
     }
 
 
-    private LinkedHashMap<String, TreeNode<String, Location>> map() {
+    public LinkedHashMap<String, TreeNode<String, Location>> map() {
         String locationData = OndoganciApplication.getInstance().context().anmLocationController().get();
         LocationTree locationTree = AssetHandler.jsonStringToJava(locationData, LocationTree.class);
         if (locationTree != null) {

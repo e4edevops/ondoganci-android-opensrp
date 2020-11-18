@@ -87,6 +87,9 @@ public class ChildRegisterFragment extends BaseChildRegisterFragment {
         return DBQueryHelper.getFilterSelectionCondition(urgentOnly);
     }
 
+//    @Override
+//    private initializeQueries
+
     @Override
     public void setupViews(View view) {
         super.setupViews(view);

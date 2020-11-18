@@ -299,7 +299,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         TimeChangedBroadcastReceiver.getInstance().addOnTimeChangedListener(this);
 
         SyncStatusBroadcastReceiver.init(this);
-        LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.LOCATION_LEVELS)), BuildConfig.DEFAULT_LOCATION);
+        LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.ALLOWED_LEVELS)), BuildConfig.DEFAULT_LOCATION);
         jsonSpecHelper = new JsonSpecHelper(this);
 
         StockLibrary.init(context, getRepository(), new StockHelperRepository());
@@ -318,7 +318,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
                 AppConstants.RELATIONSHIP.MOTHER, AppConstants.JSON_FORM.OUT_OF_CATCHMENT_SERVICE);
         metadata.setupFatherRelation(AppConstants.TABLE_NAME.ALL_CLIENTS, AppConstants.RELATIONSHIP.FATHER);
         //TODO include this metadata.setFieldsWithLocationHierarchy(new HashSet<>(Collections.singletonList(AppConstants.KEY.HOME_ADDRESS)));
-//        metadata.setFieldsWithLocationHierarchy(new HashSet<>(Collections.singletonList(AppConstants.KEY.HOME_ADDRESS)));
+        metadata.setFieldsWithLocationHierarchy(new HashSet<>(Arrays.asList("Home_Facility", "Birth_Facility_Name", "Residential_Area")));
         metadata.setLocationLevels(AppUtils.getLocationLevels());
         metadata.setHealthFacilityLevels(AppUtils.getHealthFacilityLevels());
         return metadata;

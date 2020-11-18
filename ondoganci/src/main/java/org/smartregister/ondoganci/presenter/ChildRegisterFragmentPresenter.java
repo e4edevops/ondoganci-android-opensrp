@@ -21,6 +21,11 @@ public class ChildRegisterFragmentPresenter extends BaseChildRegisterFragmentPre
                 Utils.metadata().getRegisterQueryProvider().getChildDetailsTable() + "." + Constants.KEY.IS_CLOSED);
     }
 
+//    @Override
+//    public void initializeQueries(String mainCondition){
+//
+//    }
+
     @Override
     public String getDefaultSortQuery() {
         return DBQueryHelper.getSortQuery();

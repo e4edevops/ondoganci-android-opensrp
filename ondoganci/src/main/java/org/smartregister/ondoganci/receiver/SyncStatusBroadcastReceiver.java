@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 import org.smartregister.domain.FetchStatus;
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.service.intent.ExtendedSyncIntentService;
-import org.smartregister.ondoganci.service.intent.SyncIntentService;
+import org.smartregister.sync.intent.SyncIntentService;
 import org.smartregister.repository.AllSharedPreferences;
 import org.smartregister.sync.DrishtiSyncScheduler;
 
@@ -95,8 +95,8 @@ public class SyncStatusBroadcastReceiver extends BroadcastReceiver {
                     if (isComplete) {
                         complete(fetchStatus, context);
 
-                        boolean wakeup = intent.getBooleanExtra(SyncIntentService.WAKE_UP, false);
-                        startExtendedSyncAndAlarms(context, wakeup);
+//                        boolean wakeup = intent.getBooleanExtra(SyncIntentService.WAKE_UP, false);
+//                        startExtendedSyncAndAlarms(context, wakeup);
                     } else {
                         inProgress(fetchStatus);
                     }

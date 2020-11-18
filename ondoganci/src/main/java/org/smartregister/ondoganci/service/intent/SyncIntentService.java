@@ -22,6 +22,7 @@ import org.smartregister.ondoganci.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.ondoganci.receiver.VaccinatorAlarmReceiver;
 import org.smartregister.ondoganci.sync.ECSyncUpdater;
 import org.smartregister.sync.ClientProcessorForJava;
+import org.smartregister.SyncFilter;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.service.HTTPAgent;
 
@@ -31,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.smartregister.ondoganci.util.NetworkUtils;
+
+import timber.log.Timber;
 
 public class SyncIntentService extends IntentService {
     private static final String ADD_URL = "/rest/event/add";
@@ -116,10 +119,10 @@ public class SyncIntentService extends IntentService {
             }
 
             Long lastSyncDatetime = ecSyncUpdater.getLastSyncTimeStamp();
-            Log.i(SyncIntentService.class.getName(), "LAST SYNC DT :" + new DateTime(lastSyncDatetime));
+            Timber.i("LAST SYNC DT :%s", new DateTime(lastSyncDatetime));
 
-            String url = baseUrl + SYNC_URL + "?" + AllConstants.SyncFilters.FILTER_LOCATION_ID + "=" + locations + "&serverVersion=" + lastSyncDatetime + "&limit=" + SyncIntentService.EVENT_PULL_LIMIT;
-            Log.i(SyncIntentService.class.getName(), "URL: " + url);
+            String url = baseUrl + SYNC_URL + "?" + SyncFilter.LOCATION_ID + "=" + locations + "&serverVersion=" + lastSyncDatetime + "&limit=" + SyncIntentService.EVENT_PULL_LIMIT;
+            Timber.i("URL: %s", url);
 
             if (httpAgent == null) {
                 complete(FetchStatus.fetchedFailed);
@@ -133,7 +136,7 @@ public class SyncIntentService extends IntentService {
             JSONObject jsonObject = new JSONObject((String) resp.payload());
 
             int eCount = fetchNumberOfEvents(jsonObject);
-            Log.i(getClass().getName(), "Parse Network Event Count: " + eCount);
+            Timber.i("Parse Network Event Count: %s", eCount);
 
             if (eCount == 0) {
                 complete(FetchStatus.nothingFetched);
@@ -154,7 +157,7 @@ public class SyncIntentService extends IntentService {
                 fetchRetry(0);
             }
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Fetch Retry Exception: " + e.getMessage(), e.getCause());
+            Timber.e(e.getCause(), "Fetch Retry Exception: %s", e.getMessage());
             fetchFailed(count);
         }
     }
@@ -175,7 +178,7 @@ public class SyncIntentService extends IntentService {
             ClientProcessorForJava.getInstance(context).processClient(events);
             sendSyncStatusBroadcastMessage(FetchStatus.fetched);
         } catch (Exception e) {
-            Log.e(getClass().getName(), "Process Client Exception: " + e.getMessage(), e.getCause());
+            Timber.e(e.getCause(), "Process Client Exception: %s", e.getMessage());
         }
     }
 
@@ -215,13 +218,13 @@ public class SyncIntentService extends IntentService {
                                 ADD_URL),
                         jsonPayload);
                 if (response.isFailure()) {
-                    Log.e(getClass().getName(), "Events sync failed.");
+                    Timber.e("Events sync failed.");
                     return;
                 }
                 db.markEventsAsSynced(pendingEvents);
-                Log.i(getClass().getName(), "Events synced successfully.");
+                Timber.i("Events synced successfully.");
             } catch (Exception e) {
-                Log.e(getClass().getName(), e.getMessage(), e);
+                Timber.e(e);
             }
         }
     }
@@ -277,7 +280,7 @@ public class SyncIntentService extends IntentService {
                 return Pair.create(minServerVersion, maxServerVersion);
             }
         } catch (Exception e) {
-            Log.e(getClass().getName(), e.getMessage(), e);
+            Timber.e(e);
         }
         return Pair.create(0L, 0L);
     }
@@ -290,7 +293,7 @@ public class SyncIntentService extends IntentService {
                 count = jsonObject.getInt(NO_OF_EVENTS);
             }
         } catch (JSONException e) {
-            Log.e(getClass().getName(), e.getMessage(), e);
+            Timber.e(e);
         }
         return count;
     }

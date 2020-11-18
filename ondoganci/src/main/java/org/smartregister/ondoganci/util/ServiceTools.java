@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.smartregister.ondoganci.receiver.VaccinatorAlarmReceiver;
-import org.smartregister.ondoganci.service.intent.SyncIntentService;
+import org.smartregister.sync.intent.SyncIntentService;
 
 /**
  * Created by keyman on 12/4/17.

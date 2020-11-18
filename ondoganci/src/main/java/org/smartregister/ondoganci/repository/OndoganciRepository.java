@@ -31,6 +31,8 @@ import org.smartregister.reporting.repository.IndicatorRepository;
 import org.smartregister.repository.AlertRepository;
 import org.smartregister.repository.EventClientRepository;
 import org.smartregister.repository.Hia2ReportRepository;
+import org.smartregister.repository.LocationRepository;
+import org.smartregister.repository.LocationTagRepository;
 import org.smartregister.repository.Repository;
 import org.smartregister.repository.SettingsRepository;
 import org.smartregister.repository.UniqueIdRepository;
@@ -71,7 +73,11 @@ public class OndoganciRepository extends Repository {
         EventClientRepository
                 .createTable(database, EventClientRepository.Table.event, EventClientRepository.event_column.values());
         ConfigurableViewsRepository.createTable(database);
+        LocationRepository.createTable(database);
+
         UniqueIdRepository.createTable(database);
+
+        LocationTagRepository.createTable(database);
 
         SettingsRepository.onUpgrade(database);
         WeightRepository.createTable(database);
@@ -156,15 +162,6 @@ public class OndoganciRepository extends Repository {
                     break;
                 case 12:
                     upgradeToVersion12(db);
-                    break;
-                case 13:
-                    upgradeToVersion13(db);
-                    break;
-                case 14:
-                    upgradeToVersion14(db);
-                    break;
-                case 15:
-                    upgradeToVersion15RemoveUnnecessaryTables(db);
                     break;
 //                    case 8:
 //                    upgradeToVersion8AddServiceGroupColumn(db);
@@ -261,9 +258,6 @@ public class OndoganciRepository extends Repository {
         upgradeToVersion10(database);
         upgradeToVersion11Stock(database);
         upgradeToVersion12(database);
-        upgradeToVersion13(database);
-        upgradeToVersion14(database);
-        upgradeToVersion15RemoveUnnecessaryTables(database);
     }
 
     /**
@@ -567,59 +561,6 @@ public class OndoganciRepository extends Repository {
 
         } catch (Exception e) {
             Timber.e("upgradeToVersion12 %s", e.getMessage());
-        }
-    }
-
-    private void upgradeToVersion13(SQLiteDatabase db) {
-        try {
-            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
-            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_TEAM_COL);
-
-            db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
-            db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_TEAM_COL);
-        } catch (Exception e) {
-            Timber.e("upgradeToVersion13 %s", e.getMessage());
-        }
-    }
-
-    private void upgradeToVersion14(SQLiteDatabase db) {
-        try {
-
-            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
-            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_TEAM_COL);
-
-            db.execSQL(HeightRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
-            db.execSQL(HeightRepository.UPDATE_TABLE_ADD_TEAM_COL);
-
-            db.execSQL(HeadRepository.UPDATE_TABLE_ADD_TEAM_ID_COL);
-            db.execSQL(HeadRepository.UPDATE_TABLE_ADD_TEAM_COL);
-
-            db.execSQL(VaccineRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
-
-            db.execSQL(WeightRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
-            db.execSQL(HeightRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
-            db.execSQL(HeadRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
-
-            db.execSQL(RecurringServiceRecordRepository.UPDATE_TABLE_ADD_CHILD_LOCATION_ID_COL);
-        } catch (Exception e) {
-            Timber.e("upgradeToVersion14 %s", e.getMessage());
-        }
-    }
-
-    private void upgradeToVersion15RemoveUnnecessaryTables(SQLiteDatabase db) {
-        try {
-            db.execSQL("DROP TABLE IF EXISTS address");
-            db.execSQL("DROP TABLE IF EXISTS obs");
-            if (DatabaseMigrationUtils.isColumnExists(db, "path_reports", Hia2ReportRepository.report_column.json.name()))
-                db.execSQL("ALTER TABLE path_reports RENAME TO " + Hia2ReportRepository.Table.hia2_report.name() + ";");
-            if (DatabaseMigrationUtils.isColumnExists(db, EventClientRepository.Table.client.name(), "firstName"))
-                DatabaseMigrationUtils.recreateSyncTableWithExistingColumnsOnly(db, EventClientRepository.Table.client);
-            if (DatabaseMigrationUtils.isColumnExists(db, EventClientRepository.Table.event.name(), "locationId"))
-                DatabaseMigrationUtils.recreateSyncTableWithExistingColumnsOnly(db, EventClientRepository.Table.event);
-
-
-        } catch (Exception e) {
-            Timber.e("upgradeToVersion15RemoveUnnecessaryTables %s", e.getMessage());
         }
     }
 

@@ -16,6 +16,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by keyman on 08/02/2017.
  */
@@ -46,7 +48,7 @@ public class ReportUtils {
             ecUpdater.addReport(reportJson);
 
         } catch (Exception e) {
-            Log.e(TAG, e.toString(), e);
+            Timber.e(e, e.toString());
         }
     }
 
