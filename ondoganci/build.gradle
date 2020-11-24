@@ -88,8 +88,8 @@ android {
             buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
             buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
-            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "Facility", "Village"}'
-            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "Health Facility", "Village"}'
+            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
         }
@@ -115,8 +115,8 @@ android {
             buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
             buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
-            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "Facility", "Village"}'
-            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "Health Facility", "Village"}'
+            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
             testCoverageEnabled true
@@ -149,8 +149,8 @@ android {
             buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
             buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
-            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "Facility", "Village"}'
-            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "Health Facility", "Village"}'
+            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
         }
@@ -181,8 +181,8 @@ android {
             buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
             buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
             buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
-            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "Facility", "Village"}'
-            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "Health Facility", "Village"}'
+            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
         }
