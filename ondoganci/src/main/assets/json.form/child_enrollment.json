@@ -208,7 +208,7 @@
           "err": "Enter a valid weight"
         },
         "v_required": {
-          "value": "true",
+          "value": "false",
           "err": "Enter the child's birth weight"
         }
       },
@@ -229,7 +229,7 @@
           "err": "Enter a valid height"
         },
         "v_required": {
-          "value": "true",
+          "value": "false",
           "err": "Enter the child's birth height"
         }
       },
@@ -250,7 +250,7 @@
           "err": "Enter a head circumference"
         },
         "v_required": {
-          "value": "true",
+          "value": "false",
           "err": "Enter the child's head circumference"
         }
       },
@@ -579,25 +579,16 @@
         "openmrs_entity_parent": "",
         "openmrs_entity": "concept",
         "openmrs_entity_id": "1396AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-        "type": "spinner",
-        "hint": "Clinic Health Worker *",
-        "values": [
-          "Nurse 1",
-          "Nurse 2",
-          "Nurse 3",
-          "Nurse 4",
-          "Nurse 5"
-        ],
-        "openmrs_choice_ids": {
-          "Nurse 1": "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Nurse 2": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Nurse 3": "664AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Nurse 4": "703AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-          "Nurse 5": "1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        },
+        "type": "edit_text",
+        "hint": "Clinic Health Worker",
+        "edit_type": "name",
         "v_required": {
-          "value": "true",
+          "value": true,
           "err": "Please Select The Clinic Health Worker"
+        },
+        "v_regex": {
+          "value": "[A-Za-z\\s\\.\\-]*",
+          "err": "Please enter a valid name"
         }
       }
     ]

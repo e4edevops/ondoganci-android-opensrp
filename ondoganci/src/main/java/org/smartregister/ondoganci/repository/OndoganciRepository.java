@@ -147,7 +147,7 @@ public class OndoganciRepository extends Repository {
                     upgradeToVersion7Stock(db);
                     break;
                 case 8:
-                    upgradeToVersion8RecurringServiceUpdate(db);
+//                    upgradeToVersion8RecurringServiceUpdate(db);
                     upgradeToVersion8ReportDeceased(db);
                     break;
                 case 9:
@@ -252,7 +252,7 @@ public class OndoganciRepository extends Repository {
         upgradeToVersion7WeightHeightVaccineRecurringServiceChange(database);
         upgradeToVersion7RemoveUnnecessaryTables(database);
         upgradeToVersion7Stock(database);
-        upgradeToVersion8RecurringServiceUpdate(database);
+//        upgradeToVersion8RecurringServiceUpdate(database);
         upgradeToVersion8ReportDeceased(database);
         upgradeToVersion9(database);
         upgradeToVersion10(database);
@@ -460,24 +460,24 @@ public class OndoganciRepository extends Repository {
         }
     }
 
-    private void upgradeToVersion8RecurringServiceUpdate(SQLiteDatabase db) {
-        try {
-            db.execSQL(MonthlyTalliesRepository.INDEX_UNIQUE);
-            dumpHIA2IndicatorsCSV(db);
-
-            // Recurring service json changed. update
-            RecurringServiceTypeRepository recurringServiceTypeRepository = OndoganciApplication.getInstance().recurringServiceTypeRepository();
-            IMDatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
-
-        } catch (Exception e) {
-            Timber.e("upgradeToVersion8RecurringServiceUpdate %s", Log.getStackTraceString(e));
-        }
-    }
+//    private void upgradeToVersion8RecurringServiceUpdate(SQLiteDatabase db) {
+//        try {
+//            db.execSQL(MonthlyTalliesRepository.INDEX_UNIQUE);
+//            dumpHIA2IndicatorsCSV(db);
+//
+//            // Recurring service json changed. update
+//            RecurringServiceTypeRepository recurringServiceTypeRepository = OndoganciApplication.getInstance().recurringServiceTypeRepository();
+//            IMDatabaseUtils.populateRecurringServices(context, db, recurringServiceTypeRepository);
+//
+//        } catch (Exception e) {
+//            Timber.e("upgradeToVersion8RecurringServiceUpdate %s", Log.getStackTraceString(e));
+//        }
+//    }
 
     private void upgradeToVersion8ReportDeceased(SQLiteDatabase database) {
         try {
 
-            String ALTER_ADD_DEATHDATE_COLUMN = "ALTER TABLE " + Utils.metadata().childRegister.tableName + " ADD COLUMN " + AppConstants.KEY.DOD + " VARCHAR";
+            String ALTER_ADD_DEATHDATE_COLUMN = "ALTER TABLE " + Utils.metadata().childRegister.tableName + " VARCHAR";
             database.execSQL(ALTER_ADD_DEATHDATE_COLUMN);
 
             ArrayList<String> newlyAddedFields = new ArrayList<>();
@@ -520,8 +520,6 @@ public class OndoganciRepository extends Repository {
             CumulativeIndicatorRepository.createTable(database);
             CumulativePatientRepository.createTable(database);
 
-            dumpHIA2IndicatorsCSV(database);
-
         } catch (Exception e) {
             Timber.e("upgradeToVersion10 %s", e.getMessage());
         }
@@ -562,16 +560,6 @@ public class OndoganciRepository extends Repository {
         } catch (Exception e) {
             Timber.e("upgradeToVersion12 %s", e.getMessage());
         }
-    }
-
-    private void dumpHIA2IndicatorsCSV(SQLiteDatabase db) {
-        List<Map<String, String>> csvData = org.smartregister.util.Utils.populateTableFromCSV(
-                context,
-                HIA2IndicatorsRepository.INDICATORS_CSV_FILE,
-                HIA2IndicatorsRepository.CSV_COLUMN_MAPPING);
-        HIA2IndicatorsRepository hIA2IndicatorsRepository = OndoganciApplication.getInstance()
-                .hIA2IndicatorsRepository();
-        hIA2IndicatorsRepository.save(db, csvData);
     }
 
     private boolean checkIfAppUpdated() {
