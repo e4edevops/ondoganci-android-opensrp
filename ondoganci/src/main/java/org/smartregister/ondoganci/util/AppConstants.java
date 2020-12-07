@@ -34,6 +34,8 @@ public class AppConstants {
         public static final String BIRTHDATE = "birthdate";
         public static final String DEATHDATE = "deathdate";
         public static final String MOTHER_LAST_NAME = "mother_last_name";
+        public static final String MOTHER_GUARDIAN_PHONE_NUMBER = "mother_guardian_phone_number";
+        public static final String FIRST_HEALTH_FACILITY_CONTACT = "first_health_facility_contact";
         public static final String ZEIR_ID = "zeir_id";
         public static final String LOST_TO_FOLLOW_UP = "lost_to_follow_up";
         public static final String GENDER = "gender";
@@ -72,7 +74,14 @@ public class AppConstants {
         public static final String HOME_ADDRESS = "home_address";
         public static final String DOB_UNKNOWN = "dob_unknown";
         public static final String DATE_BIRTH = "Date_Birth";
+        public static final String PMTCT_STATUS = "pmtct_status";
         public static final String BIRTH_WEIGHT = "Birth_Weight";
+        public static final String BIRTH_HEIGHT = "Birth_Height";
+        public static final String BIRTH_HEAD = "Birth_Head_Circumference";
+        public static final String NRC_NUMBER = "nrc_number";
+        public static final String FATHER_NAME = "father_name";
+        public static final String EPI_CARD_NUMBER = "epi_card_number";
+        public static final String CLIENT_REG_DATE = "client_reg_date";
         public static final String CARD_ID = "card_id";
         public static final String MOTHER_PHONE_NUMBER = "mother_phone_number";
         public static final String MOTHER_SECOND_PHONE_NUMBER = "mother_second_phone_number";

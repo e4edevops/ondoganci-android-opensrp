@@ -76,8 +76,8 @@
         "hint": "Child's Home Health Facility",
         "tree": [],
         "v_required": {
-          "value": true,
-          "err": "Please enter the child's home health facility"
+          "value": false,
+          "err": "Please enter the child's home facility"
         }
       },
       {
@@ -101,7 +101,15 @@
         }
       },
       {
-        "key": "first_name",
+        "key": "Child_Birth_Certificate",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "person_attribute",
+        "openmrs_entity_id": "Child_Birth_Certificate",
+        "type": "edit_text",
+        "hint": "Child's birth certificate number"
+      },
+      {
+        "key": "First_Name",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person",
         "openmrs_entity_id": "first_name",
@@ -261,12 +269,12 @@
         "openmrs_entity_id": "first_name",
         "entity_id": "mother",
         "type": "edit_text",
-        "hint": "Mother/guardian first name ",
+        "hint": "Mother's first name ",
         "edit_type": "name",
         "look_up": "true",
         "v_required": {
           "value": "true",
-          "err": "Please enter the mother/guardian's first name"
+          "err": "Please enter the mother's first name"
         },
         "v_regex": {
           "value": "[A-Za-z\\s\.\-]*",
@@ -280,12 +288,12 @@
         "openmrs_entity_id": "last_name",
         "entity_id": "mother",
         "type": "edit_text",
-        "hint": "Mother/guardian last name ",
+        "hint": "Mother Last Name ",
         "edit_type": "name",
         "look_up": "true",
         "v_required": {
           "value": "true",
-          "err": "Please enter the mother/guardian's last name"
+          "err": "Please enter the mother's last name"
         },
         "v_regex": {
           "value": "[A-Za-z\\s\.\-]*",
@@ -299,7 +307,7 @@
         "openmrs_entity_id": "birthdate",
         "entity_id": "mother",
         "type": "date_picker",
-        "hint": "Mother/Guardian DOB",
+        "hint": "Mother DOB",
         "look_up": "true",
         "expanded": false,
         "duration": {
@@ -338,39 +346,36 @@
         ]
       },
       {
-        "key": "Mother_Guardian_Age",
+        "key": "Mother_Guardian_NRC",
         "openmrs_entity_parent": "",
         "openmrs_entity": "person_attribute",
-        "openmrs_entity_id": "mother_age",
+        "openmrs_entity_id": "NRC_Number",
         "entity_id": "mother",
         "type": "edit_text",
-        "hint": "Mother/Guardian Age",
+        "hint": "Mother/Guardian National Identity Number",
         "v_numeric": {
           "value": "true",
-          "err": "Please enter a number"
-        },
-        "v_min": {
-          "value": "0",
-          "err": "Age must be equal or greater than 0"
-        },
-        "v_max": {
-          "value": "99",
-          "err": "Age must be equal or less than 99"
+          "err": "Number must be from 0-9"
+        }
+      },
+      {
+        "key": "Mother_Guardian_Number",
+        "openmrs_entity_parent": "",
+        "openmrs_entity": "concept",
+        "openmrs_entity_id": "159635AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "type": "edit_text",
+        "hint": "Mother/Guardian Phone Number *",
+        "v_numeric": {
+          "value": "true",
+          "err": "Number must begin with 070, 080, or 081 and must be a total of 11 digits in length"
         },
         "v_regex": {
-          "value": "^$|([0-9]+)",
-          "err": "The number must be valid"
-        },
-        "relevance": {
-          "rules-engine": {
-            "ex-rules": {
-              "rules-file": "child-enrollment-relevance.yml"
-            }
-          }
+          "value": "(0[0-9]{2}[0-9]{8})|\\s*",
+          "err": "Number must begin with 070, 080, or 081 and must be a total of 11 digits in length"
         },
         "v_required": {
           "value": true,
-          "err": "Please enter the age"
+          "err": "Please enter mother's or guardian phone number"
         }
       },
       {
@@ -523,39 +528,6 @@
         },
         "relevance": {
           "step1:Birth_Facility_Name": {
-            "type": "string",
-            "ex": "equalTo(., \"[\"Other\"]\")"
-          }
-        }
-      },
-      {
-        "key": "Residential_Area",
-        "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "person_address",
-        "openmrs_entity_id": "address3",
-        "openmrs_data_type": "text",
-        "type": "tree",
-        "hint": "Child's Residential Area ",
-        "tree": [],
-        "v_required": {
-          "value": true,
-          "err": "Please enter the child's residential area"
-        }
-      },
-      {
-        "key": "Residential_Area_Other",
-        "openmrs_entity_parent": "usual_residence",
-        "openmrs_entity": "person_address",
-        "openmrs_entity_id": "address5",
-        "type": "edit_text",
-        "hint": "Other residential area ",
-        "edit_type": "name",
-        "v_required": {
-          "value": true,
-          "err": "Please specify the residential area"
-        },
-        "relevance": {
-          "step1:Residential_Area": {
             "type": "string",
             "ex": "equalTo(., \"[\"Other\"]\")"
           }
