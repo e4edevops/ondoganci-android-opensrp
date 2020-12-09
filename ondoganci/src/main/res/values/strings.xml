@@ -673,5 +673,6 @@
     <string name="rubella_serology">Mother received Rubella Serology test</string>
     <string name="serology_results">Serology test result</string>
     <string name="birth_facility_name">Birth_Facility_Name</string>
+    <string name="dashboard">Dashboard</string>
 
 </resources>
