@@ -21,6 +21,7 @@ public class LoginActivity extends BaseLoginActivity implements BaseLoginContrac
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+
     }
 
     @Override
