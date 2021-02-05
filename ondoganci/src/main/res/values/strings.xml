@@ -20,6 +20,8 @@
    <string translatable="false" name="stock_title"> Stock Control</string>
    <string translatable="false" name="login_text">Log In</string>
    <string translatable="false" name="log_out_text">Log Out</string>
+   <string translatable="false" name="permissions_required">Permissions Required</string>
+   <string translatable="false" name="read_write_permissions_required">Read and write external storage permissions are required when saving and accessing profile images.</string>
 
    <string translatable="false" name="english">English</string>
    <string translatable="false" name="french">Français</string>
@@ -640,7 +642,7 @@
    <string translatable="false" name="str_field_search_hint">Search Register</string>
    <string translatable="false" name="search_hint">Search Register</string>
 
-   <string name="opensrp_url">https://ondoganci.e4eweb.space</string>
+   <string translatable="false" name="opensrp_url">https://ondoganci.e4eweb.space</string>
    <string translatable="false" name="supported_by">Supported by</string>
    <string translatable="false" name="tunisia_app_login_title">Carte électronique de vaccination Tunisienne\nبطـــــاقة التلقيـــــح الإلكترونيــــة التونسية</string>
    <string translatable="false" name="child_birth_registration_number">Child\'s birth registration number</string>

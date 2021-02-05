@@ -14,6 +14,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.immunization.db.VaccineRepo;
 import org.smartregister.ondoganci.R;
 import org.smartregister.ondoganci.application.OndoganciApplication;
+import org.smartregister.ondoganci.contract.NavigationMenuContract;
 import org.smartregister.ondoganci.domain.Cohort;
 import org.smartregister.ondoganci.domain.CohortIndicator;
 import org.smartregister.ondoganci.domain.CoverageHolder;
@@ -25,8 +26,12 @@ import org.smartregister.ondoganci.repository.CohortPatientRepository;
 import org.smartregister.ondoganci.repository.CohortRepository;
 import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 import org.smartregister.ondoganci.util.AppConstants;
+import org.smartregister.ondoganci.util.AppUtils;
 import org.smartregister.ondoganci.view.CustomHeightSpinner;
+import org.smartregister.ondoganci.view.NavDrawerActivity;
+import org.smartregister.ondoganci.view.NavigationMenu;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,10 +41,15 @@ import java.util.Map;
 /**
  * Created by keyman on 21/12/17.
  */
-public class CohortCoverageReportActivity extends BaseReportActivity {
+public class CohortCoverageReportActivity extends BaseReportActivity implements NavDrawerActivity, NavigationMenuContract {
+
+
+    private NavigationMenu navigationMenu;
 
     @Nullable
     private String reportGrouping;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,8 @@ public class CohortCoverageReportActivity extends BaseReportActivity {
         }
 
         setContentView(R.layout.activity_cohort_coverage_reports);
+
+        createDrawer();
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -244,4 +256,44 @@ public class CohortCoverageReportActivity extends BaseReportActivity {
         updateCohortSize();
         updateReportList(pair.first);
     }
+
+
+    //................................................
+    @Override
+    public NavigationMenu getNavigationMenu() {
+        return navigationMenu;
+    }
+
+
+    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        // get language from prefs
+        String lang = AppUtils.getLanguage(base.getApplicationContext());
+        super.attachBaseContext(AppUtils.setAppLocale(base, lang));
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void openDrawer() {
+        if (navigationMenu != null) {
+            navigationMenu.openDrawer();
+        }
+    }
+
+    private void createDrawer() {
+        WeakReference<CohortCoverageReportActivity> weakReference = new WeakReference<>(this);
+        navigationMenu = NavigationMenu.getInstance(weakReference.get());
+    }
+
+    @Override
+    public void closeDrawer() {
+        if (navigationMenu != null) {
+            NavigationMenu.closeDrawer();
+        }
+    }
+
 }

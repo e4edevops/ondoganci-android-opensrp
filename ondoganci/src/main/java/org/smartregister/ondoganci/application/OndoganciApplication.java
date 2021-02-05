@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 
 import com.crashlytics.android.Crashlytics;
@@ -52,6 +53,7 @@ import org.smartregister.ondoganci.repository.CumulativePatientRepository;
 import org.smartregister.ondoganci.repository.CumulativeRepository;
 import org.smartregister.ondoganci.repository.StockHelperRepository;
 import org.smartregister.ondoganci.repository.UniqueIdRepository;
+import org.smartregister.ondoganci.util.SaveSharedPreference;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.EventClientRepository;
@@ -381,6 +383,15 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getApplicationContext().startActivity(intent);
         context.userService().logoutSession();
+
+        SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
+        SaveSharedPreference.setUsername(getApplicationContext(), "");
+        SaveSharedPreference.setPassword(getApplicationContext(), "");
+
+        Log.d( "Login Cleared", "done!!!"
+                + " username: "+SaveSharedPreference.getUsername(getApplicationContext())
+                +" password: "+SaveSharedPreference.getPassword(getApplicationContext())
+                +" Login Status: "+SaveSharedPreference.getLoggedStatus(getApplicationContext()));
     }
 
     @Override
@@ -434,14 +445,14 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
     @Override
     public void onTimeChanged() {
-        context.userService().forceRemoteLogin();
-        logoutCurrentUser();
+//        context.userService().forceRemoteLogin();
+//        logoutCurrentUser();
     }
 
     @Override
     public void onTimeZoneChanged() {
-        context.userService().forceRemoteLogin();
-        logoutCurrentUser();
+//        context.userService().forceRemoteLogin();
+//        logoutCurrentUser();
     }
 
     public Context context() {
@@ -484,6 +495,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
         HashMap<String, VaccineDuplicate> replacementVaccines = new HashMap<>();
         replacementVaccines.put("BCG 2", new VaccineDuplicate("BCG 2", VaccineRepo.Vaccine.bcg, 1825, 0, 15, "child"));
+
 
         for (VaccineRepo.Vaccine vaccine : vaccines) {
             if (replacementVaccines.containsKey(vaccine.display())) {
@@ -622,5 +634,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         VaccinatorAlarmReceiver.setAlarm(context, BuildConfig.IMAGE_UPLOAD_MINUTES, AppConstants.ServiceType.IMAGE_UPLOAD);
         VaccinatorAlarmReceiver.setAlarm(context, BuildConfig.PULL_UNIQUE_IDS_MINUTES, AppConstants.ServiceType.PULL_UNIQUE_IDS);
     }
+
+
 }
 

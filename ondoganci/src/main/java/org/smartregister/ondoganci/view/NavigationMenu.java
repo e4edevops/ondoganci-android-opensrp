@@ -250,13 +250,14 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
 
     private void goToRegister() {
         registerView.setOnClickListener(v -> {
-            if (activityWeakReference.get() instanceof HIA2ReportsActivity) {
-                // start register activity
-                Intent intent = new Intent(activityWeakReference.get(), ChildRegisterActivity.class);
-                activityWeakReference.get().startActivity(intent);
-            } else {
-                drawer.closeDrawer(GravityCompat.START);
-            }
+//            if (activityWeakReference.get() instanceof HIA2ReportsActivity) {
+//                // start register activity
+//                Intent intent = new Intent(activityWeakReference.get(), ChildRegisterActivity.class);
+//                activityWeakReference.get().startActivity(intent);
+//            } else {
+//
+//                drawer.closeDrawer(GravityCompat.START);
+            startRegisterActivity();
         });
     }
 
@@ -371,6 +372,17 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             return;
         }
         Intent intent = new Intent(activityWeakReference.get(), DropoutReportsActivity.class);
+        activityWeakReference.get().startActivity(intent);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    private void startRegisterActivity() {
+
+        if (activityWeakReference.get() instanceof ChildRegisterActivity) {
+            drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+        Intent intent = new Intent(activityWeakReference.get(), ChildRegisterActivity.class);
         activityWeakReference.get().startActivity(intent);
         drawer.closeDrawer(GravityCompat.START);
     }
