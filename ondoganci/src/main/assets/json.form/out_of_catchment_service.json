@@ -58,7 +58,7 @@
         "barcode_type": "qrcode",
         "hint": "ONDOGANCI ID *",
         "scanButtonText": "Scan QR Code",
-        "read_only": true,
+        "read_only": false,
         "value": "",
         "v_required": {
           "value": "true",

@@ -1,15 +1,21 @@
 package org.smartregister.ondoganci.activity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
+import com.vijay.jsonwizard.views.CustomTextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.ondoganci.R;
 import org.smartregister.stock.activity.StockJsonFormActivity;
 import org.smartregister.ondoganci.fragment.AppJsonFormFragment;
 import org.smartregister.ondoganci.util.AppConstants;
+
+import java.util.Iterator;
+import java.util.List;
 
 import timber.log.Timber;
 

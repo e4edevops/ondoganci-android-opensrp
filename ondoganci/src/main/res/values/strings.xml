@@ -676,5 +676,7 @@
    <string translatable="false" name="serology_results">Serology test result</string>
    <string translatable="false" name="birth_facility_name">Birth_Facility_Name</string>
    <string translatable="false" name="dashboard">Dashboard</string>
+    <string name="record_weight">Record Weight</string>
+   <string name="record_head_circumference">Record Head Circumference</string>
 
 </resources>

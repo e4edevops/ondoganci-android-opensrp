@@ -2,6 +2,7 @@ package org.smartregister.ondoganci.fragment;
 
 import android.view.View;
 
+import org.smartregister.child.contract.ChildRegisterFragmentContract;
 import org.smartregister.child.domain.RegisterClickables;
 import org.smartregister.child.fragment.BaseChildRegisterFragment;
 import org.smartregister.child.util.Constants;
@@ -15,6 +16,9 @@ import org.smartregister.ondoganci.util.DBQueryHelper;
 import org.smartregister.view.activity.BaseRegisterActivity;
 
 public class ChildRegisterFragment extends BaseChildRegisterFragment {
+
+
+
 
     @Override
     protected void initializePresenter() {

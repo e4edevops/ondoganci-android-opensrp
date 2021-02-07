@@ -7,13 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.apache.commons.lang3.tuple.Triple;
-import org.smartregister.AllConstants;
 import org.smartregister.child.activity.BaseChildImmunizationActivity;
 import org.smartregister.child.domain.RegisterClickables;
 import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 import org.smartregister.child.util.Constants;
-import org.smartregister.child.util.Utils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
+import org.smartregister.growthmonitoring.fragment.RecordGrowthDialogFragment;
 import org.smartregister.immunization.job.VaccineSchedulesUpdateJob;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.ondoganci.application.OndoganciApplication;
@@ -45,6 +44,8 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
         if (myToolbar != null) {
             myToolbar.setNavigationOnClickListener(v -> finish());
         }
+
+
     }
 
     @Override

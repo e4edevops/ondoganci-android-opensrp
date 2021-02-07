@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -42,6 +43,7 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.util.VaccinateActionUtils;
 import org.smartregister.immunization.util.VaccinatorUtils;
 import org.smartregister.location.helper.LocationHelper;
+import org.smartregister.ondoganci.R;
 import org.smartregister.ondoganci.receiver.CoverageDropoutBroadcastReceiver;
 import org.smartregister.ondoganci.receiver.Hia2ServiceBroadcastReceiver;
 import org.smartregister.ondoganci.receiver.VaccinatorAlarmReceiver;
@@ -88,7 +90,6 @@ import org.smartregister.view.receiver.TimeChangedBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -312,6 +313,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
     }
 
     private ChildMetadata getMetadata() {
+
         ChildMetadata metadata = new ChildMetadata(ChildFormActivity.class, ChildProfileActivity.class,
                 ChildImmunizationActivity.class, ChildRegisterActivity.class, true, new AppChildRegisterQueryProvider());
         metadata.updateChildRegister(AppConstants.JSON_FORM.CHILD_ENROLLMENT, AppConstants.TABLE_NAME.ALL_CLIENTS,
@@ -323,6 +325,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         metadata.setFieldsWithLocationHierarchy(new HashSet<>(Arrays.asList("Home_Facility", "Birth_Facility_Name", "Residential_Area")));
         metadata.setLocationLevels(AppUtils.getLocationLevels());
         metadata.setHealthFacilityLevels(AppUtils.getHealthFacilityLevels());
+
         return metadata;
     }
 
@@ -445,12 +448,14 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
     @Override
     public void onTimeChanged() {
+        Toast.makeText(this, R.string.device_time_changed, Toast.LENGTH_LONG).show();
 //        context.userService().forceRemoteLogin();
 //        logoutCurrentUser();
     }
 
     @Override
     public void onTimeZoneChanged() {
+        Toast.makeText(this, R.string.device_timezone_changed, Toast.LENGTH_LONG).show();
 //        context.userService().forceRemoteLogin();
 //        logoutCurrentUser();
     }
@@ -491,24 +496,28 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
     @VisibleForTesting
     protected void fixHardcodedVaccineConfiguration() {
-        VaccineRepo.Vaccine[] vaccines = ImmunizationLibrary.getInstance().getVaccines();
+        try {
+            VaccineRepo.Vaccine[] vaccines = ImmunizationLibrary.getInstance().getVaccines();
 
-        HashMap<String, VaccineDuplicate> replacementVaccines = new HashMap<>();
-        replacementVaccines.put("BCG 2", new VaccineDuplicate("BCG 2", VaccineRepo.Vaccine.bcg, 1825, 0, 15, "child"));
+            HashMap<String, VaccineDuplicate> replacementVaccines = new HashMap<>();
+            replacementVaccines.put("BCG 2", new VaccineDuplicate("BCG 2", VaccineRepo.Vaccine.bcg, 1825, 0, 15, "child"));
 
 
-        for (VaccineRepo.Vaccine vaccine : vaccines) {
-            if (replacementVaccines.containsKey(vaccine.display())) {
-                VaccineDuplicate vaccineDuplicate = replacementVaccines.get(vaccine.display());
-                vaccine.setCategory(vaccineDuplicate.category());
-                vaccine.setExpiryDays(vaccineDuplicate.expiryDays());
-                vaccine.setMilestoneGapDays(vaccineDuplicate.milestoneGapDays());
-                vaccine.setPrerequisite(vaccineDuplicate.prerequisite());
-                vaccine.setPrerequisiteGapDays(vaccineDuplicate.prerequisiteGapDays());
+            for (VaccineRepo.Vaccine vaccine : vaccines) {
+                if (replacementVaccines.containsKey(vaccine.display())) {
+                    VaccineDuplicate vaccineDuplicate = replacementVaccines.get(vaccine.display());
+                    vaccine.setCategory(vaccineDuplicate.category());
+                    vaccine.setExpiryDays(vaccineDuplicate.expiryDays());
+                    vaccine.setMilestoneGapDays(vaccineDuplicate.milestoneGapDays());
+                    vaccine.setPrerequisite(vaccineDuplicate.prerequisite());
+                    vaccine.setPrerequisiteGapDays(vaccineDuplicate.prerequisiteGapDays());
+                }
             }
-        }
 
-        ImmunizationLibrary.getInstance().setVaccines(vaccines);
+            ImmunizationLibrary.getInstance().setVaccines(vaccines);
+        }catch(Exception e){
+            Log.d("HardcodedVaccine", e.getMessage());
+        }
     }
 
     public DailyTalliesRepository dailyTalliesRepository() {
