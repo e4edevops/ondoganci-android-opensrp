@@ -1,10 +1,16 @@
 package org.smartregister.ondoganci.activity;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.child.activity.BaseChildImmunizationActivity;
@@ -12,22 +18,38 @@ import org.smartregister.child.domain.RegisterClickables;
 import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 import org.smartregister.child.util.Constants;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
-import org.smartregister.growthmonitoring.fragment.RecordGrowthDialogFragment;
+import org.smartregister.growthmonitoring.domain.HeadWrapper;
+import org.smartregister.growthmonitoring.domain.HeightWrapper;
+import org.smartregister.growthmonitoring.domain.Weight;
+import org.smartregister.growthmonitoring.domain.WeightWrapper;
+import org.smartregister.growthmonitoring.fragment.GrowthDialogFragment;
+import org.smartregister.growthmonitoring.repository.WeightRepository;
+import org.smartregister.immunization.domain.ServiceWrapper;
 import org.smartregister.immunization.job.VaccineSchedulesUpdateJob;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.util.AppConstants;
 import org.smartregister.ondoganci.util.AppUtils;
+import org.smartregister.ondoganci.util.PathConstants;
 import org.smartregister.ondoganci.util.VaccineUtils;
+import org.smartregister.util.Utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
+import static org.smartregister.immunization.domain.ServiceSchedule.standardiseCalendarDate;
+
 public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
 
     private LocationSwitcherToolbar myToolbar;
+    public List<Weight> getWeights;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -45,8 +67,8 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
             myToolbar.setNavigationOnClickListener(v -> finish());
         }
 
-
     }
+
 
     @Override
     protected void goToRegisterPage() {
@@ -56,6 +78,65 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
         finish();
 
     }
+
+
+
+
+
+    @Override
+    public void onGrowthRecorded(WeightWrapper weightWrapper, HeightWrapper heightWrapper, HeadWrapper headWrapper) {
+        super.onGrowthRecorded(weightWrapper, heightWrapper, headWrapper);
+        WeightRepository weightRepository = OndoganciApplication.getInstance().weightRepository();
+        sortWeights(weightRepository.findByEntityId(childDetails.entityId()));
+        try {
+            Weight newWeight = getWeights.get(0);
+            Weight oldWelght = getWeights.get(1);
+            checkWeight(newWeight, oldWelght);
+        }catch (Exception e){
+            Log.e("Weight error","Error in weight: "+e);
+        }
+
+    }
+
+    private void sortWeights(List<Weight> weights) {
+        HashMap<Long, Weight> weightHashMap = new HashMap<>();
+        for (Weight curWeight : weights) {
+            if (curWeight.getDate() != null) {
+                Calendar curCalendar = Calendar.getInstance();
+                curCalendar.setTime(curWeight.getDate());
+                standardiseCalendarDate(curCalendar);
+
+                if (!weightHashMap.containsKey(curCalendar.getTimeInMillis())) {
+                    weightHashMap.put(curCalendar.getTimeInMillis(), curWeight);
+                } else if (curWeight.getUpdatedAt() > weightHashMap.get(curCalendar.getTimeInMillis()).getUpdatedAt()) {
+                    weightHashMap.put(curCalendar.getTimeInMillis(), curWeight);
+                }
+            }
+        }
+
+        List<Long> keys = new ArrayList<>(weightHashMap.keySet());
+        Collections.sort(keys, Collections.<Long>reverseOrder());
+
+        List<Weight> result = new ArrayList<>();
+        for (Long curKey : keys) {
+            result.add(weightHashMap.get(curKey));
+        }
+
+        this.getWeights = result;
+    }
+
+    private void checkWeight(Weight currentWeight, Weight previousWeight) {
+        String current = String.valueOf(currentWeight.getKg());
+        String previous = String.valueOf(previousWeight.getKg());
+
+        if(Float.parseFloat(current) != Float.parseFloat(previous)){
+            if (Float.parseFloat(current) <= Float.parseFloat(previous)) {
+                float droppedWeight = Float.parseFloat(current) - Float.parseFloat(previous);
+                Toast.makeText(getActivity(), "Baby's weight has dropped by " + droppedWeight + "kg", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     @Override
     protected int getToolbarId() {
