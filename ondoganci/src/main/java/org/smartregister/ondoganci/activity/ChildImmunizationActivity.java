@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -22,22 +23,22 @@ import org.smartregister.growthmonitoring.domain.HeadWrapper;
 import org.smartregister.growthmonitoring.domain.HeightWrapper;
 import org.smartregister.growthmonitoring.domain.Weight;
 import org.smartregister.growthmonitoring.domain.WeightWrapper;
-import org.smartregister.growthmonitoring.fragment.GrowthDialogFragment;
 import org.smartregister.growthmonitoring.repository.WeightRepository;
-import org.smartregister.immunization.domain.ServiceWrapper;
+import org.smartregister.immunization.domain.VaccineWrapper;
+import org.smartregister.immunization.domain.jsonmapping.VaccineGroup;
 import org.smartregister.immunization.job.VaccineSchedulesUpdateJob;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.util.AppConstants;
 import org.smartregister.ondoganci.util.AppUtils;
-import org.smartregister.ondoganci.util.PathConstants;
 import org.smartregister.ondoganci.util.VaccineUtils;
-import org.smartregister.util.Utils;
+import org.smartregister.stock.StockLibrary;
+import org.smartregister.stock.activity.StockJsonFormActivity;
+import org.smartregister.stock.repository.StockRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +63,7 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         VaccineUtils.refreshImmunizationSchedules(childDetails.getCaseId());
-         myToolbar = (LocationSwitcherToolbar) this.getToolbar();
+        myToolbar = (LocationSwitcherToolbar) this.getToolbar();
         if (myToolbar != null) {
             myToolbar.setNavigationOnClickListener(v -> finish());
         }
@@ -137,6 +138,146 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
         }
     }
 
+//    @Override
+//    public void onVaccinateToday(ArrayList<VaccineWrapper> tags, View v) {
+//        super.onVaccinateToday(tags, v);
+//        StockRepository stockRepository = StockLibrary.getInstance().getStockRepository();
+//        StockJsonFormActivity updateVials = new StockJsonFormActivity();
+//        int vials;
+//        for(int i = 0; i < tags.size(); i++){
+//            switch(tags.get(i).getDefaultName()){
+//                case "OPV 0":
+//                case "OPV 1":
+//                case "OPV 2":
+//                case "OPV 3":
+//                case "OPV 4": {
+//                    String stockName = "OPV";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    --vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "PCV 1":
+//                case "PCV 2":
+//                case "PCV 3": {
+//                    String stockName = "PCV";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    --vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "Penta 1":
+//                case "Penta 2":
+//                case "Penta 3": {
+//                    String stockName = "Penta";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    --vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "BCG": {
+//                    String stockName = "BCG";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    --vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "HepB": {
+//                    String stockName = "Hepatitis B";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    --vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "Vitamin A 0":
+//                case "Vitamin A 1":{
+//                    String stockName = "Vitamin A";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    --vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "Measles 1":
+//                case "MR 1":{
+//                    String stockName = "M/MR";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    --vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void onUndoVaccination(VaccineWrapper tag, View v) {
+//        super.onUndoVaccination(tag, v);
+//        StockRepository stockRepository = StockLibrary.getInstance().getStockRepository();
+//        StockJsonFormActivity updateVials = new StockJsonFormActivity();
+//        int vials;
+//            switch(tag.getDefaultName()){
+//                case "OPV 0":
+//                case "OPV 1":
+//                case "OPV 2":
+//                case "OPV 3":
+//                case "OPV 4": {
+//                    String stockName = "OPV";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    ++vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "PCV 1":
+//                case "PCV 2":
+//                case "PCV 3": {
+//                    String stockName = "PCV";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    ++vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "Penta 1":
+//                case "Penta 2":
+//                case "Penta 3": {
+//                    String stockName = "Penta";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    ++vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "BCG": {
+//                    String stockName = "BCG";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    ++vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "HepB": {
+//                    String stockName = "Hepatitis B";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    ++vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "Vitamin A 0":
+//                case "Vitamin A 1":{
+//                    String stockName = "Vitamin A";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    ++vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//                case "Measles 1":
+//                case "MR 1":{
+//                    String stockName = "M/MR";
+//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+//                    ++vials;
+//                    updateVials.refreshVialsBalance(stockName, vials);
+//                    break;
+//                }
+//
+//            }
+//        }
 
     @Override
     protected int getToolbarId() {
