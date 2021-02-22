@@ -1,14 +1,11 @@
 package org.smartregister.ondoganci.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
+import androidx.annotation.NonNull;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -24,17 +21,12 @@ import org.smartregister.growthmonitoring.domain.HeightWrapper;
 import org.smartregister.growthmonitoring.domain.Weight;
 import org.smartregister.growthmonitoring.domain.WeightWrapper;
 import org.smartregister.growthmonitoring.repository.WeightRepository;
-import org.smartregister.immunization.domain.VaccineWrapper;
-import org.smartregister.immunization.domain.jsonmapping.VaccineGroup;
 import org.smartregister.immunization.job.VaccineSchedulesUpdateJob;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.util.AppConstants;
 import org.smartregister.ondoganci.util.AppUtils;
 import org.smartregister.ondoganci.util.VaccineUtils;
-import org.smartregister.stock.StockLibrary;
-import org.smartregister.stock.activity.StockJsonFormActivity;
-import org.smartregister.stock.repository.StockRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;

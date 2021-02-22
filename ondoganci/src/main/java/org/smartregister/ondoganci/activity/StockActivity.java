@@ -1,17 +1,19 @@
 package org.smartregister.ondoganci.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.smartregister.ondoganci.R;
 import org.smartregister.ondoganci.contract.NavigationMenuContract;
@@ -117,6 +119,7 @@ public class StockActivity extends AppCompatActivity implements NavDrawerActivit
         }
     }
 
+    @SuppressLint("WrongConstant")
     public void showSnackbar(Activity activity, String message, int maxLines) {
         View rootView = activity.getWindow().getDecorView().findViewById(android.R.id.content);
         final Snackbar snackbar;
@@ -131,7 +134,7 @@ public class StockActivity extends AppCompatActivity implements NavDrawerActivit
             }
         });
         view = snackbar.getView();
-        textView = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        textView = (TextView) view.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setMaxLines(maxLines * 2);
         textView.setTextSize(16);
         params = (FrameLayout.LayoutParams) view.getLayoutParams();

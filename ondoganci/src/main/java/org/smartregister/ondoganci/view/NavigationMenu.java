@@ -4,21 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,13 +40,10 @@ import org.smartregister.ondoganci.activity.HIA2ReportsActivity;
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.contract.NavigationContract;
 import org.smartregister.ondoganci.presenter.NavigationPresenter;
-import org.smartregister.ondoganci.util.AppConstants;
-import org.smartregister.util.LangUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import timber.log.Timber;
 

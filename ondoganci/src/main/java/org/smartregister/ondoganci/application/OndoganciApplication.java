@@ -3,8 +3,8 @@ package org.smartregister.ondoganci.application;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
@@ -305,7 +305,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.ALLOWED_LEVELS)), BuildConfig.DEFAULT_LOCATION);
         jsonSpecHelper = new JsonSpecHelper(this);
 
-        StockLibrary.init(context, getRepository(), new StockHelperRepository());
+        StockLibrary.init(context, getRepository(), new StockHelperRepository(getRepository()));
         //init Job Manager
         JobManager.create(this).addJobCreator(new AppJobCreator());
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -551,7 +551,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
     public StockRepository stockRepository() {
         if (stockRepository == null) {
-            stockRepository = new StockRepository();
+            stockRepository = new StockRepository(getRepository());
         }
         return stockRepository;
     }

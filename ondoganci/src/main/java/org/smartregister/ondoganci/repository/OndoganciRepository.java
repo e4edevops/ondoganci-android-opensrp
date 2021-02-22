@@ -1,8 +1,7 @@
 package org.smartregister.ondoganci.repository;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import net.sqlcipher.database.SQLiteDatabase;
 
@@ -46,8 +45,6 @@ import org.smartregister.stock.util.StockUtils;
 import org.smartregister.util.DatabaseMigrationUtils;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import timber.log.Timber;
 

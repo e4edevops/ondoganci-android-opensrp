@@ -1,7 +1,7 @@
 package org.smartregister.ondoganci.service;
 
 import android.database.Cursor;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import net.sqlcipher.database.SQLiteDatabase;
 

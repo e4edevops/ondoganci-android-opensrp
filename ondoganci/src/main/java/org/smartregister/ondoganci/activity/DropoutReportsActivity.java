@@ -3,11 +3,11 @@ package org.smartregister.ondoganci.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.tuple.Triple;
-import org.smartregister.child.activity.BaseActivity;
-import org.smartregister.domain.FetchStatus;
 import org.smartregister.ondoganci.R;
-import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 import org.smartregister.ondoganci.contract.NavigationMenuContract;
 import org.smartregister.ondoganci.model.ReportGroupingModel;
 import org.smartregister.ondoganci.util.AppConstants;

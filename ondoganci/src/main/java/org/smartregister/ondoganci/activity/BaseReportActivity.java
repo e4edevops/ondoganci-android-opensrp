@@ -2,8 +2,9 @@ package org.smartregister.ondoganci.activity;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -18,9 +19,7 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.tuple.Triple;
-import org.smartregister.child.activity.BaseActivity;
 import org.smartregister.child.util.Utils;
-import org.smartregister.domain.FetchStatus;
 import org.smartregister.immunization.db.VaccineRepo;
 import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.ondoganci.R;
@@ -406,10 +405,10 @@ public abstract class BaseReportActivity extends AppCompatActivity implements Co
         return zeirNumber;
     }
 
-//    @Override
-public void showProgressDialog() {
-    showProgressDialog(getString(org.smartregister.child.R.string.saving_dialog_title), getString(org.smartregister.child.R.string.please_wait_message));
-}
+    //    @Override
+    public void showProgressDialog() {
+        showProgressDialog(getString(org.smartregister.child.R.string.saving_dialog_title), getString(org.smartregister.child.R.string.please_wait_message));
+    }
 
     public void showProgressDialog(String title, String message) {
         if (progressDialog != null) {

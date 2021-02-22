@@ -7,8 +7,8 @@ import android.app.FragmentTransaction;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartregister.ondoganci.R;
-import org.smartregister.child.activity.BaseActivity;
 import org.smartregister.ondoganci.activity.BaseReportActivity;
 import org.smartregister.ondoganci.domain.CoverageHolder;
 import org.smartregister.ondoganci.helper.LocationHelper;

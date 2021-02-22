@@ -2,13 +2,12 @@ package org.smartregister.ondoganci.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.immunization.db.VaccineRepo;
 import org.smartregister.ondoganci.R;
 import org.smartregister.ondoganci.application.OndoganciApplication;
@@ -21,7 +20,6 @@ import org.smartregister.ondoganci.model.ReportGroupingModel;
 import org.smartregister.ondoganci.receiver.CoverageDropoutBroadcastReceiver;
 import org.smartregister.ondoganci.repository.CumulativeIndicatorRepository;
 import org.smartregister.ondoganci.repository.CumulativeRepository;
-import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

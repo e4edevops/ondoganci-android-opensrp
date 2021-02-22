@@ -1,8 +1,9 @@
 package org.smartregister.ondoganci.activity;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+
+import androidx.fragment.app.Fragment;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;

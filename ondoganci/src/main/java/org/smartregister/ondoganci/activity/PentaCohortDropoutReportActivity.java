@@ -2,7 +2,7 @@ package org.smartregister.ondoganci.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -16,7 +16,6 @@ import org.smartregister.ondoganci.contract.NavigationMenuContract;
 import org.smartregister.ondoganci.domain.NamedObject;
 import org.smartregister.ondoganci.model.ReportGroupingModel;
 import org.smartregister.ondoganci.receiver.CoverageDropoutBroadcastReceiver;
-import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 import org.smartregister.ondoganci.util.AppConstants;
 import org.smartregister.ondoganci.util.AppUtils;
 import org.smartregister.ondoganci.view.NavDrawerActivity;
