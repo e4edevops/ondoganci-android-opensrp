@@ -391,10 +391,6 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         SaveSharedPreference.setUsername(getApplicationContext(), "");
         SaveSharedPreference.setPassword(getApplicationContext(), "");
 
-        Log.d( "Login Cleared", "done!!!"
-                + " username: "+SaveSharedPreference.getUsername(getApplicationContext())
-                +" password: "+SaveSharedPreference.getPassword(getApplicationContext())
-                +" Login Status: "+SaveSharedPreference.getLoggedStatus(getApplicationContext()));
     }
 
     @Override
@@ -402,7 +398,6 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         try {
             if (repository == null) {
                 repository = new OndoganciRepository(getInstance().getApplicationContext(), context);
-                stockRepository();
             }
         } catch (UnsatisfiedLinkError e) {
             Timber.e(e, "OndoganciApplication --> getRepository");

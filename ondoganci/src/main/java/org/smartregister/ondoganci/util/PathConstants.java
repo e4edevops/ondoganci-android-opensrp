@@ -1,6 +1,7 @@
 package org.smartregister.ondoganci.util;
 
 import org.smartregister.AllConstants;
+import org.smartregister.ondoganci.BuildConfig;
 
 /**
  * Created by coder on 2/14/17.

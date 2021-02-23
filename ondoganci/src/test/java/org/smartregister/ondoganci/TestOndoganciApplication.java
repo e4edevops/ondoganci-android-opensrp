@@ -5,7 +5,6 @@ import org.fest.util.Lists;
 import org.smartregister.immunization.domain.jsonmapping.Vaccine;
 import org.smartregister.immunization.domain.jsonmapping.VaccineGroup;
 import org.smartregister.ondoganci.application.OndoganciApplication;
-import org.smartregister.ondoganci.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +76,7 @@ public class TestOndoganciApplication extends OndoganciApplication {
     }
 
     @Override
-    public String getPassword() {
+    public byte[] getPassword() {
         return "somepassword";
     }
 

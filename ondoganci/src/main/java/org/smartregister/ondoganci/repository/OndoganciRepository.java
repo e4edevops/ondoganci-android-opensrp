@@ -45,8 +45,11 @@ import org.smartregister.stock.util.StockUtils;
 import org.smartregister.util.DatabaseMigrationUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import timber.log.Timber;
+
+import static org.smartregister.configurableviews.ConfigurableViewsLibrary.getContext;
 
 public class OndoganciRepository extends Repository {
 

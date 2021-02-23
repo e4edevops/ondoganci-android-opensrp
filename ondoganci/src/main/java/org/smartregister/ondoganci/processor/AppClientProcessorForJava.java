@@ -18,6 +18,7 @@ import org.smartregister.child.util.MoveToMyCatchmentUtils;
 import org.smartregister.child.util.Utils;
 import org.smartregister.clientandeventmodel.DateUtil;
 import org.smartregister.commonregistry.AllCommonsRepository;
+
 import org.smartregister.domain.db.Client;
 import org.smartregister.domain.db.Event;
 import org.smartregister.domain.db.EventClient;
