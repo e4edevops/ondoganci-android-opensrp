@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.receiver.VaccinatorAlarmReceiver;
+import org.smartregister.sync.intent.SyncIntentService;
 import org.smartregister.ondoganci.service.intent.path.PathStockSyncIntentService;
 import org.smartregister.ondoganci.service.intent.path.PathZScoreRefreshIntentService;
 import org.smartregister.service.ActionService;
@@ -33,17 +34,17 @@ public class ExtendedSyncIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent workIntent) {
 
-        boolean wakeup = workIntent.getBooleanExtra(SyncIntentService.WAKE_UP, false);
-
-        if (NetworkUtils.isNetworkAvailable()) {
-
-            startStockSync(wakeup);
-
-            actionService.fetchNewActions();
-
-            startSyncValidation(wakeup);
-        }
-        startZscoreRefresh(wakeup);
+//        boolean wakeup = workIntent.getBooleanExtra(SyncIntentService.WAKE_UP, false);
+//
+//        if (NetworkUtils.isNetworkAvailable()) {
+//
+//            startStockSync(wakeup);
+//
+//            actionService.fetchNewActions();
+//
+//            startSyncValidation(wakeup);
+//        }
+//        startZscoreRefresh(wakeup);
 
         VaccinatorAlarmReceiver.completeWakefulIntent(workIntent);
     }

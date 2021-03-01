@@ -5,17 +5,17 @@
     "days_after_birth_due": 0,
     "vaccines": [
       {
-        "name": "Hep B 0",
-        "type": "hepb0",
+        "name": "OPV 0",
+        "type": "OPV",
         "openmrs_date": {
-          "parent_entity": "",
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "hepb0"
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "openmrs_calculate": {
-          "parent_entity": "",
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "hepb0_calculation",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 0
         },
         "schedule": {
@@ -23,7 +23,19 @@
             {
               "reference": "dob",
               "offset": "+0d",
-              "window": "+28d"
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+13d"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "not_given",
+              "vaccine": "OPV 4"
             }
           ]
         }
@@ -47,7 +59,43 @@
             {
               "reference": "dob",
               "offset": "+0d",
-              "window": "+28d"
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+1y"
+            }
+          ]
+        }
+      },
+      {
+        "name": "HepB",
+        "type": "HepB",
+        "openmrs_date": {
+          "parent_entity": "983AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "983AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 0
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+0d",
+              "window": "+13d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+13d"
             }
           ]
         }
@@ -55,223 +103,96 @@
     ]
   },
   {
-    "name": "2 months",
-    "id": "2_months",
-    "days_after_birth_due": 56,
+    "name": "6 Weeks",
+    "id": "Six_Wks",
+    "days_after_birth_due": 42,
     "vaccines": [
       {
-        "name": "IPV 1",
-        "type": "ipv1",
+        "name": "OPV 1",
+        "type": "OPV",
         "openmrs_date": {
-          "parent_entity": "",
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "ipv1"
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "openmrs_calculate": {
-          "parent_entity": "",
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "ipv1_calculation",
-          "calculation": 0
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
         },
         "schedule": {
           "due": [
             {
               "reference": "dob",
-              "offset": "+2m",
-              "window": "+28d"
+              "offset": "+42d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
             }
           ]
         }
       },
       {
-        "name": "PENTA 1",
-        "type": "penta1",
+        "name": "Penta 1",
+        "type": "Penta",
         "openmrs_date": {
-          "parent_entity": "",
+          "parent_entity": "1685AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "penta1"
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "openmrs_calculate": {
-          "parent_entity": "",
+          "parent_entity": "1685AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "penta1_calculation",
-          "calculation": 0
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
         },
         "schedule": {
           "due": [
             {
               "reference": "dob",
-              "offset": "+2m",
-              "window": "+28d"
+              "offset": "+42d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,10m"
             }
           ]
         }
       },
       {
         "name": "PCV 1",
-        "type": "pcv1",
+        "type": "PCV",
         "openmrs_date": {
-          "parent_entity": "",
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "pcv1"
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "openmrs_calculate": {
-          "parent_entity": "",
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "pcv1_calculation",
-          "calculation": 0
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "dob",
-              "offset": "+2m",
-              "window": "+28d"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "name": "3 months",
-    "id": "3_months",
-    "days_after_birth_due": 84,
-    "vaccines": [
-      {
-        "name": "IPV 2",
-        "type": "ipv2",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "ipv2"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "ipv2_calculation",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "calculation": 1
         },
         "schedule": {
           "due": [
             {
-              "reference": "prerequisite",
-              "prerequisite": "IPV 1",
-              "offset": "+1m",
-              "window": "+28d"
+              "reference": "dob",
+              "offset": "+42d",
+              "window": "+10d"
             }
-          ]
-        }
-      },
-      {
-        "name": "PENTA 2",
-        "type": "penta2",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "penta2"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "penta2_calculation",
-          "calculation": 1
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "PENTA 1",
-              "offset": "+1m",
-              "window": "+28d"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "name": "4 months",
-    "id": "4_months",
-    "days_after_birth_due": 112,
-    "vaccines": [
-      {
-        "name": "PCV 2",
-        "type": "pcv2",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "pcv2"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "pcv2_calculation",
-          "calculation": 1
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "PCV 1",
-              "offset": "+2m",
-              "window": "+28d"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "name": "6 months",
-    "id": "6_months",
-    "days_after_birth_due": 168,
-    "vaccines": [
-      {
-        "name": "Penta 3",
-        "type": "penta3",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "penta3"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "penta3_calculation",
-          "calculation": 2
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "Penta 2",
-              "offset": "+3m",
-              "window": "+28d"
-            }
-          ]
-        }
-      },
-      {
-        "name": "OPV 1",
-        "type": "opv1",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "opv1"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "opv1_calculation",
-          "calculation": 0
-        },
-        "schedule": {
-          "due": [
+          ],
+          "expiry": [
             {
               "reference": "dob",
-              "offset": "+6m",
-              "window": "+28d"
+              "offset": "+4y,10m"
             }
           ]
         }
@@ -279,145 +200,470 @@
     ]
   },
   {
-    "name": "11 months",
-    "id": "11_months",
-    "days_after_birth_due": 308,
+    "name": "10 Weeks",
+    "id": "Ten_Wks",
+    "days_after_birth_due": 70,
     "vaccines": [
-      {
-        "name": "PCV 3",
-        "type": "pcv3",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "pcv3"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "pcv3_calculation",
-          "calculation": 2
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "prerequisite",
-              "prerequisite": "PCV 2",
-              "offset": "+7m",
-              "window": "+28d"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "name": "12 months",
-    "id": "12_months",
-    "days_after_birth_due": 336,
-    "vaccines": [
-      {
-        "name": "MR 1",
-        "type": "mr1",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "mr1"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "mr1_calculation",
-          "calculation": 0
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "dob",
-              "offset": "+12m",
-              "window": "+28d"
-            }
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "name": "18 months",
-    "id": "18_months",
-    "days_after_birth_due": 504,
-    "vaccines": [
-      {
-        "name": "DTP 4",
-        "type": "dtp4",
-        "openmrs_date": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "dtp4"
-        },
-        "openmrs_calculate": {
-          "parent_entity": "",
-          "entity": "concept",
-          "entity_id": "dtp4_calculation",
-          "calculation": 0
-        },
-        "schedule": {
-          "due": [
-            {
-              "reference": "dob",
-              "offset": "+18m",
-              "window": "+28d"
-            }
-          ]
-        }
-      },
       {
         "name": "OPV 2",
-        "type": "opv2",
+        "type": "OPV",
         "openmrs_date": {
-          "parent_entity": "",
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "opv2"
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "openmrs_calculate": {
-          "parent_entity": "",
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "opv2_calculation",
-          "calculation": 1
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 2
         },
         "schedule": {
           "due": [
             {
               "reference": "prerequisite",
               "prerequisite": "OPV 1",
-              "offset": "+12m",
-              "window": "+28d"
+              "offset": "+28d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
             }
           ]
         }
       },
       {
-        "name": "MR 2",
-        "type": "mr2",
+        "name": "Penta 2",
+        "type": "Penta",
         "openmrs_date": {
-          "parent_entity": "",
+          "parent_entity": "1685AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "mr2"
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
         },
         "openmrs_calculate": {
-          "parent_entity": "",
+          "parent_entity": "1685AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
           "entity": "concept",
-          "entity_id": "mr2_calculation",
-          "calculation": 1
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 2
         },
         "schedule": {
           "due": [
             {
               "reference": "prerequisite",
-              "prerequisite": "MR 1",
-              "offset": "+6m",
-              "window": "+28d"
+              "prerequisite": "Penta 1",
+              "offset": "+28d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
             }
           ]
+        }
+      },
+      {
+        "name": "PCV 2",
+        "type": "PCV",
+        "openmrs_date": {
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 2
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "PCV 1",
+              "offset": "+28d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+4y,11m"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "14 Weeks",
+    "id": "Fourteen_Weeks",
+    "days_after_birth_due": 98,
+    "vaccines": [
+      {
+        "name": "OPV 3",
+        "type": "OPV",
+        "openmrs_date": {
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 3
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "OPV 2",
+              "offset": "+28d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Penta 3",
+        "type": "Penta",
+        "openmrs_date": {
+          "parent_entity": "1685AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "1685AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 3
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "Penta 2",
+              "offset": "+28d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
+        }
+      },
+      {
+        "name": "PCV 3",
+        "type": "PCV",
+        "openmrs_date": {
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 3
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "PCV 2",
+              "offset": "+28d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
+        }
+      },
+      {
+        "name": "IPV",
+        "type": "IPV",
+        "openmrs_date": {
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "162342AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 3
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "prerequisite",
+              "prerequisite": "OPV 3",
+              "offset": "+28d",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "9 Months",
+    "id": "Nine_Months",
+    "days_after_birth_due": 274,
+    "vaccines": [
+      {
+        "name": "Measles 1",
+        "type": "Measles",
+        "openmrs_date": {
+          "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m",
+              "window": "+10d"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "not_given",
+              "vaccine": "MR 1"
+            }
+          ]
+        }
+      },
+      {
+        "name": "MR 1",
+        "type": "MR",
+        "openmrs_date": {
+          "parent_entity": "162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m",
+              "window": "+10d"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "not_given",
+              "vaccine": "Measles 1"
+            }
+          ]
+        }
+      },
+      {
+        "name": "OPV 4",
+        "type": "OPV",
+        "openmrs_date": {
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "783AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 4
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "not_given",
+              "vaccine": "OPV 0"
+            },
+            {
+              "type": "given",
+              "vaccine": "OPV 3",
+              "comparison": "at_least",
+              "value": "-28d"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Yellow Fever",
+        "type": "Yellow Fever",
+        "openmrs_date": {
+          "parent_entity": "5864AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "5864AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
+        }
+      },
+      {
+        "name": "MenA",
+        "type": "MenA",
+        "openmrs_date": {
+          "parent_entity": "79549AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "79549AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m",
+              "window": "+14d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+2y"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "18 Months",
+    "id": "Eighteen_Months",
+    "days_after_birth_due": 548,
+    "vaccines": [
+      {
+        "name": "Measles 2 / MR 2",
+        "type": "Measles / MR",
+        "vaccine_separator": " / ",
+        "openmrs_date": {
+          "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/162586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "36AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 2
+        },
+        "schedules": {
+          "Measles 2": {
+            "due": [
+              {
+                "reference": "prerequisite",
+                "prerequisite": "Measles 1",
+                "offset": "+9m",
+                "window": "+10d"
+              },
+              {
+                "reference": "prerequisite",
+                "prerequisite": "MR 1",
+                "offset": "+9m",
+                "window": "+10d"
+              }
+            ],
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine": "MR 2"
+              }
+            ]
+          },
+          "MR 2": {
+            "due": [
+              {
+                "reference": "prerequisite",
+                "prerequisite": "MR 1",
+                "offset": "+9m",
+                "window": "+10d"
+              },
+              {
+                "reference": "prerequisite",
+                "prerequisite": "Measles 1",
+                "offset": "+9m",
+                "window": "+10d"
+              }
+            ],
+            "conditions": [
+              {
+                "type": "not_given",
+                "vaccine": "Measles 2"
+              }
+            ]
+          }
         }
       }
     ]

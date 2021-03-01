@@ -178,8 +178,8 @@
     <string name="anc_register">ANC Register</string>
 
     <!-- Override labels in profile and immunization section -->
-    <string name="label_zeir">MER ID</string>
-    <string name="system_id_colon">MER ID:</string>
+    <string name="label_zeir">ONDOGANCI ID</string>
+    <string name="system_id_colon">ONDOGANCI ID:</string>
     <string name="title_child">Child</string>
     <string name="settings">Settings</string>
 
@@ -640,7 +640,7 @@
     <string name="str_field_search_hint">Search Register</string>
     <string name="search_hint">Search Register</string>
 
-    <string name="opensrp_url">http://104.225.217.132:8080/opensrp</string>
+    <string name="opensrp_url">http://18.224.109.34:8080/opensrp</string>
     <string name="supported_by">Supported by</string>
     <string name="tunisia_app_login_title" translatable="false">Carte électronique de vaccination Tunisienne\nبطـــــاقة التلقيـــــح الإلكترونيــــة التونسية</string>
     <string name="child_birth_registration_number">Child\'s birth registration number</string>
@@ -673,5 +673,6 @@
     <string name="rubella_serology">Mother received Rubella Serology test</string>
     <string name="serology_results">Serology test result</string>
     <string name="birth_facility_name">Birth_Facility_Name</string>
+    <string name="dashboard">Dashboard</string>
 
 </resources>

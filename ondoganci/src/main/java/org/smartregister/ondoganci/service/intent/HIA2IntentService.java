@@ -41,7 +41,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.smartregister.ondoganci.util.AppConstants;
-import org.smartregister.ondoganci.util.ReportUtils;
+import org.smartregister.ondoganci.util.AppReportUtils;
 
 
 /**
@@ -162,7 +162,7 @@ public class HIA2IntentService extends IntentService {
                         tallyReports.add(curTally.getReportHia2Indicator());
                     }
 
-                    ReportUtils.createReport(this, tallyReports, month, HIA2Service.REPORT_NAME);
+                    AppReportUtils.createReportAndSaveReport(tallyReports, month, HIA2Service.REPORT_NAME);
 
                     for (MonthlyTally curTally : tallies) {
                         curTally.setDateSent(Calendar.getInstance().getTime());

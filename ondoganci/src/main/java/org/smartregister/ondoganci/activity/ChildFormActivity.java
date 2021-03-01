@@ -86,18 +86,17 @@ public class ChildFormActivity extends BaseChildFormActivity {
     public String lookUpQuery(Map<String, String> entityMap, String tableName) {
         RegisterQueryProvider queryProvider = Utils.metadata().getRegisterQueryProvider();
 
-        String[] lookupColumns = new String[]{queryProvider.getDemographicTable() + "." + MotherLookUpUtils.RELATIONALID, queryProvider.getDemographicTable() + "." + MotherLookUpUtils.DETAILS, Constants.KEY.ZEIR_ID, Constants.KEY.FIRST_NAME, Constants.KEY.LAST_NAME,
+        String[] lookupColumns = new String[]{
+                queryProvider.getDemographicTable() + "." + MotherLookUpUtils.RELATIONALID,
+                queryProvider.getDemographicTable() + "." + MotherLookUpUtils.DETAILS,
+                Constants.KEY.ZEIR_ID,
+                Constants.KEY.FIRST_NAME,
+                Constants.KEY.LAST_NAME,
                 queryProvider.getDemographicTable() + "." + AllConstants.ChildRegistrationFields.GENDER,
                 queryProvider.getDemographicTable() + "." + Constants.KEY.DOB,
-                queryProvider.getDemographicTable() + "." + AppConstants.KEY.HOME_ADDRESS,
-                queryProvider.getDemographicTable() + "." + Constants.KEY.BASE_ENTITY_ID,
-                getMotherDetailsColumn(MOTHER_NATIONALITY),
-                getMotherDetailsColumn(MOTHER_NATIONALITY_OTHER),
-                getMotherDetailsColumn(PROTECTED_AT_BIRTH),
-                getMotherDetailsColumn(MOTHER_TDV_DOSES),
-                getMotherDetailsColumn(MOTHER_RUBELLA),
-                getMotherDetailsColumn(MOTHER_GUARDIAN_NUMBER),
-                getMotherDetailsColumn(SECOND_PHONE_NUMBER)};
+                queryProvider.getDemographicTable() + "." + Constants.KEY.NRC_NUMBER,
+                queryProvider.getDemographicTable() + "." + "contact_phone_number",
+                queryProvider.getDemographicTable() + "." + Constants.KEY.BASE_ENTITY_ID};
 
         SmartRegisterQueryBuilder queryBuilder = new SmartRegisterQueryBuilder();
         queryBuilder.SelectInitiateMainTable(tableName, lookupColumns);

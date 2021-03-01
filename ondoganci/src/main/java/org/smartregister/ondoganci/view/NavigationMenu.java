@@ -3,6 +3,7 @@ package org.smartregister.ondoganci.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -71,7 +72,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
     private NavigationContract.Presenter mPresenter;
     private DrawerLayout drawer;
     private ImageButton cancelButton;
-    private Spinner languageSpinner;
+    private LinearLayout dashboard;
 
     public static NavigationMenu getInstance(@NonNull Activity activity) {
 
@@ -108,7 +109,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
             recordOutOfArea(activity);
             attachCloseDrawer();
             goToRegister();
-            attachLanguageSpinner(activity);
+            goToDashboard(activity);
 
         } catch (Exception e) {
             Timber.e(e.toString());
@@ -132,7 +133,7 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         userInitialsTextView = activity.findViewById(R.id.user_initials_text_view);
         syncTextView = activity.findViewById(R.id.sync_text_view);
         cancelButton = drawer.findViewById(R.id.cancel_button);
-        languageSpinner = activity.findViewById(R.id.language_spinner);
+        dashboard = activity.findViewById(R.id.dashboard);
         mPresenter.refreshLastSync();
     }
 
@@ -323,63 +324,15 @@ public class NavigationMenu implements NavigationContract.View, SyncStatusBroadc
         return drawer;
     }
 
-    private void attachLanguageSpinner(final Activity activity) {
+    private void goToDashboard(Activity fromActivity) {
 
-        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(activityWeakReference.get(), R.array.languages, R.layout.language_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        languageSpinner.setAdapter(adapter);
-        languageSpinner.setOnItemSelectedListener(null);
-        String langPref = LangUtils.getLanguage(activity.getApplicationContext());
-        for (int i = 0; i < langArray.length; i++) {
-
-            if (langPref != null && langArray[i].toLowerCase().startsWith(langPref)) {
-                languageSpinner.setSelection(i);
-                break;
-            } else {
-                languageSpinner.setSelection(0);
-            }
-        }
-
-        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            int count = 0;
-
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (count >= 1) {
-
-                    Timber.d("Selected %s", adapter.getItem(i));
-
-                    String lang = adapter.getItem(i).toString().toLowerCase();
-                    Locale LOCALE;
-                    switch (lang) {
-                        case "english":
-                            LOCALE = Locale.ENGLISH;
-                            break;
-                        case "français":
-                            LOCALE = Locale.FRENCH;
-                            break;
-                        case "العربية":
-                            LOCALE = new Locale(AppConstants.LOCALE.ARABIC_LOCALE);
-                            languageSpinner.setSelection(i);
-                            break;
-                        default:
-                            LOCALE = Locale.ENGLISH;
-                            break;
-                    }
-
-                    // save language
-                    LangUtils.saveLanguage(activity.getApplicationContext(), LOCALE.getLanguage());
-
-                    launchActivity(activity, activity.getClass() );
-                }
-                count++;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+        dashboard.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("https://app.powerbi.com/view?r=eyJrIjoiMmI1NGE4YjYtZWU2My00MjYxLWFkMjktMzFmMTlmNTdiNDc4IiwidCI6ImQyMWIyNDkyLTFkZGMtNGZlOC05ZDcxLTM1MjcyMzU1NWYyZCIsImMiOjl9&pageName=ReportSectionc42e50ab2d148e5e8296"));
+                fromActivity.startActivity(intent);
             }
         });
     }

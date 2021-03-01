@@ -10,6 +10,7 @@ import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.smartregister.child.util.Utils;
 import org.smartregister.ondoganci.application.OndoganciApplication;
+import org.smartregister.ondoganci.cursor.RemoteLocalCursor;
 import org.smartregister.repository.Repository;
 import org.smartregister.stock.StockLibrary;
 import org.smartregister.stock.domain.ActiveChildrenStats;
@@ -67,7 +68,7 @@ public class StockHelperRepository extends StockExternalRepository {
         ActiveChildrenStats activeChildrenStats = new ActiveChildrenStats();
         OndoganciRepository repo = (OndoganciRepository) OndoganciApplication.getInstance().getRepository();
         SQLiteDatabase db = repo.getReadableDatabase();
-        Cursor c = db.rawQuery("Select dob,client_reg_date from " + Utils.metadata().getRegisterQueryProvider().getChildDetailsTable() + " where inactive != 'true' and lost_to_follow_up != 'true' ", null);
+        Cursor c = db.rawQuery("Select dob, client_reg_date from " + Utils.metadata().getRegisterQueryProvider().getDemographicTable(), null);
         c.moveToFirst();
         boolean thismonth;
 

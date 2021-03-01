@@ -15,7 +15,9 @@ import org.smartregister.child.util.Constants;
 import org.smartregister.child.util.Utils;
 import org.smartregister.commonregistry.CommonPersonObjectClient;
 import org.smartregister.immunization.job.VaccineSchedulesUpdateJob;
+import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.ondoganci.application.OndoganciApplication;
+import org.smartregister.ondoganci.util.AppConstants;
 import org.smartregister.ondoganci.util.AppUtils;
 import org.smartregister.ondoganci.util.VaccineUtils;
 
@@ -25,6 +27,9 @@ import java.util.concurrent.TimeUnit;
 import timber.log.Timber;
 
 public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
+
+    private LocationSwitcherToolbar myToolbar;
+
     @Override
     protected void attachBaseContext(Context base) {
         // get language from prefs
@@ -36,7 +41,7 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         VaccineUtils.refreshImmunizationSchedules(childDetails.getCaseId());
-        LocationSwitcherToolbar myToolbar = (LocationSwitcherToolbar) this.getToolbar();
+         myToolbar = (LocationSwitcherToolbar) this.getToolbar();
         if (myToolbar != null) {
             myToolbar.setNavigationOnClickListener(v -> finish());
         }
@@ -67,8 +72,8 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
 
         Intent intent = new Intent(fromContext, ChildDetailTabbedActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.INTENT_KEY.LOCATION_ID,
-                Utils.context().allSharedPreferences().getPreference(AllConstants.CURRENT_LOCATION_ID));
+        bundle.putString(AppConstants.KEY.LOCATION_NAME,
+                LocationHelper.getInstance().getOpenMrsLocationId(myToolbar.getCurrentLocation()));
         bundle.putSerializable(Constants.INTENT_KEY.EXTRA_CHILD_DETAILS, childDetails);
         bundle.putSerializable(Constants.INTENT_KEY.BASE_ENTITY_ID, childDetails.getCaseId());
         bundle.putSerializable(Constants.INTENT_KEY.EXTRA_REGISTER_CLICKABLES, registerClickables);

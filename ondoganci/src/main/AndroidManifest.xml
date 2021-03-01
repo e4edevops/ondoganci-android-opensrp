@@ -30,6 +30,15 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:icon,android:label,android:theme">
         <activity
+            android:name="org.smartregister.ondoganci.activity.ReportRegisterActivity"
+            android:theme="@style/ChildTheme.NoActionBar" />
+        <activity
+            android:name="org.smartregister.ondoganci.activity.ChildImmunizationActivity"
+            android:label="@string/title_activity_child_immunization"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
             android:name="org.smartregister.ondoganci.activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Login"
@@ -40,15 +49,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.smartregister.ondoganci.activity.ReportRegisterActivity"
-            android:theme="@style/ChildTheme.NoActionBar" />
-        <activity
-            android:name="org.smartregister.ondoganci.activity.ChildImmunizationActivity"
-            android:label="@string/title_activity_child_immunization"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name="org.smartregister.ondoganci.activity.ChildRegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

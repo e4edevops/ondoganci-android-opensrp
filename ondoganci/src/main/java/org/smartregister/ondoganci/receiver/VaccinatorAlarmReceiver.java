@@ -9,7 +9,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import org.smartregister.ondoganci.service.intent.CoverageDropoutIntentService;
 import org.smartregister.ondoganci.service.intent.HIA2IntentService;
 import org.smartregister.ondoganci.service.intent.PullUniqueIdsIntentService;
-import org.smartregister.ondoganci.service.intent.SyncIntentService;
+import org.smartregister.sync.intent.SyncIntentService;
 import org.smartregister.ondoganci.service.intent.path.PathImageUploadSyncService;
 import org.smartregister.ondoganci.service.intent.path.PathRecurringIntentService;
 import org.smartregister.ondoganci.service.intent.path.PathVaccineIntentService;
@@ -38,7 +38,7 @@ public class VaccinatorAlarmReceiver extends WakefulBroadcastReceiver {
             case AppConstants.ServiceType.AUTO_SYNC:
                 android.util.Log.i(TAG, "Started AUTO_SYNC service at: " + dateFormatter.format(new Date()));
                 serviceIntent = new Intent(context, SyncIntentService.class);
-                serviceIntent.putExtra(SyncIntentService.WAKE_UP, true);
+//                serviceIntent.putExtra(SyncIntentService.WAKE_UP, true);
                 break;
             case AppConstants.ServiceType.DAILY_TALLIES_GENERATION:
                 android.util.Log.i(TAG, "Started DAILY_TALLIES_GENERATION service at: " + dateFormatter.format(new Date()));
