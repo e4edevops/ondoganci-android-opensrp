@@ -306,4 +306,22 @@ public class StockRepository extends BaseRepository {
         database.execSQL(sql);
         database.execSQL("DROP TABLE IF EXISTS old_" + oldTableName);
     }
+
+    public void addNewStockVials(String name, String newVials) {
+        //For vials deduction from the database
+        SQLiteDatabase database = getWritableDatabase();
+        StockTypeRepository stockTypeRepository = StockLibrary.getInstance().getStockTypeRepository();
+        ArrayList<StockType> stockTypes = (ArrayList) stockTypeRepository.findIDByName(name);
+        String id = "";
+        String stockname;
+        if (stockTypes.size() > 0) {
+            id = "" + stockTypes.get(0).getId();
+            stockname = stockTypes.get(0).getName();
+            Log.e(TAG, "Stock name in repository before operation: " + stockname);
+        }
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(VALUE, newVials);
+        database.update(STOCK_TABLE_NAME, contentValues, ID_COLUMN + "= ?", new String[]{id});
+    }
 }

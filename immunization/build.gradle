@@ -1,12 +1,12 @@
-ext {
-    getLocalProperty = { key ->
-        if (properties != null && properties.containsKey(key)) {
-            println(key + ": " + properties[key])
-            return properties[key]
-        } else {
-            return "\"sample_property_value\""
-        } }
-}
+//ext {
+//    getLocalProperty = { key ->
+//        if (properties != null && properties.containsKey(key)) {
+//            println(key + ": " + properties[key])
+//            return properties[key]
+//        } else {
+//            return "\"sample_property_value\""
+//        } }
+//}
 description = 'OpenSRP immunization client library'
 
 buildscript {

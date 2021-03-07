@@ -24,19 +24,19 @@ jacoco {
     toolVersion = jacocoVersion
 }
 
-Properties properties = new Properties()
-if (project.rootProject.file("local.properties").exists()) {
-    properties.load(project.rootProject.file("local.properties").newDataInputStream())
-}
-
-ext.getLocalProperty = { key ->
-    if (properties != null && properties.containsKey(key)) {
-        println(key + ": " + properties[key])
-        return properties[key]
-    } else {
-        return "\"sample_property_value\""
-    }
-}
+//Properties properties = new Properties()
+//if (project.rootProject.file("local.properties").exists()) {
+//    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+//}
+//
+//ext.getLocalProperty = { key ->
+//    if (properties != null && properties.containsKey(key)) {
+//        println(key + ": " + properties[key])
+//        return properties[key]
+//    } else {
+//        return "\"sample_property_value\""
+//    }
+//}
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -119,13 +119,14 @@ android {
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
-            buildConfigField "String", "OAUTH_CLIENT_ID", getLocalProperty("oauth.client.id.release")
-            buildConfigField "String", "OAUTH_CLIENT_SECRET", getLocalProperty("oauth.client.secret.release")
+//            buildConfigField "String", "OAUTH_CLIENT_ID", getLocalProperty("oauth.client.id.release")
+//            buildConfigField "String", "OAUTH_CLIENT_SECRET", getLocalProperty("oauth.client.secret.release")
         }
 
         debug {
             versionNameSuffix "-debug"
-            resValue "string", 'opensrp_url', '"https://ondoganci.e4eweb.space"'
+//            resValue "string", 'opensrp_url', '"https://ondoganci.e4eweb.space"'
+            resValue "string", 'opensrp_url', '"http://104.225.217.132:8080/opensrp"'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
@@ -148,8 +149,8 @@ android {
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
             testCoverageEnabled true
-            buildConfigField "String", "OAUTH_CLIENT_ID", getLocalProperty("oauth.client.id.debug")
-            buildConfigField "String", "OAUTH_CLIENT_SECRET", getLocalProperty("oauth.client.secret.debug")
+//            buildConfigField "String", "OAUTH_CLIENT_ID", getLocalProperty("oauth.client.id.debug")
+//            buildConfigField "String", "OAUTH_CLIENT_SECRET", getLocalProperty("oauth.client.secret.debug")
         }
 
 //        releaseDebug {

@@ -3,9 +3,8 @@ package org.smartregister.ondoganci.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -21,12 +20,15 @@ import org.smartregister.growthmonitoring.domain.HeightWrapper;
 import org.smartregister.growthmonitoring.domain.Weight;
 import org.smartregister.growthmonitoring.domain.WeightWrapper;
 import org.smartregister.growthmonitoring.repository.WeightRepository;
+import org.smartregister.immunization.domain.VaccineWrapper;
 import org.smartregister.immunization.job.VaccineSchedulesUpdateJob;
 import org.smartregister.location.helper.LocationHelper;
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.util.AppConstants;
 import org.smartregister.ondoganci.util.AppUtils;
 import org.smartregister.ondoganci.util.VaccineUtils;
+import org.smartregister.stock.StockLibrary;
+import org.smartregister.stock.repository.StockRepository;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,6 +45,7 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
 
     private LocationSwitcherToolbar myToolbar;
     public List<Weight> getWeights;
+    private final StockRepository stockRepository = StockLibrary.getInstance().getStockRepository();
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -73,9 +76,6 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
     }
 
 
-
-
-
     @Override
     public void onGrowthRecorded(WeightWrapper weightWrapper, HeightWrapper heightWrapper, HeadWrapper headWrapper) {
         super.onGrowthRecorded(weightWrapper, heightWrapper, headWrapper);
@@ -85,8 +85,8 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
             Weight newWeight = getWeights.get(0);
             Weight oldWelght = getWeights.get(1);
             checkWeight(newWeight, oldWelght);
-        }catch (Exception e){
-            Log.e("Weight error","Error in weight: "+e);
+        } catch (Exception e) {
+            Log.e("Weight error", "Error in weight: " + e);
         }
 
     }
@@ -122,7 +122,7 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
         String current = String.valueOf(currentWeight.getKg());
         String previous = String.valueOf(previousWeight.getKg());
 
-        if(Float.parseFloat(current) != Float.parseFloat(previous)){
+        if (Float.parseFloat(current) != Float.parseFloat(previous)) {
             if (Float.parseFloat(current) <= Float.parseFloat(previous)) {
                 float droppedWeight = Float.parseFloat(current) - Float.parseFloat(previous);
                 Toast.makeText(getActivity(), "Baby's weight has dropped by " + droppedWeight + "kg", Toast.LENGTH_LONG).show();
@@ -130,146 +130,28 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
         }
     }
 
-//    @Override
-//    public void onVaccinateToday(ArrayList<VaccineWrapper> tags, View v) {
-//        super.onVaccinateToday(tags, v);
-//        StockRepository stockRepository = StockLibrary.getInstance().getStockRepository();
-//        StockJsonFormActivity updateVials = new StockJsonFormActivity();
-//        int vials;
-//        for(int i = 0; i < tags.size(); i++){
-//            switch(tags.get(i).getDefaultName()){
-//                case "OPV 0":
-//                case "OPV 1":
-//                case "OPV 2":
-//                case "OPV 3":
-//                case "OPV 4": {
-//                    String stockName = "OPV";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    --vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "PCV 1":
-//                case "PCV 2":
-//                case "PCV 3": {
-//                    String stockName = "PCV";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    --vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "Penta 1":
-//                case "Penta 2":
-//                case "Penta 3": {
-//                    String stockName = "Penta";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    --vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "BCG": {
-//                    String stockName = "BCG";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    --vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "HepB": {
-//                    String stockName = "Hepatitis B";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    --vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "Vitamin A 0":
-//                case "Vitamin A 1":{
-//                    String stockName = "Vitamin A";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    --vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "Measles 1":
-//                case "MR 1":{
-//                    String stockName = "M/MR";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    --vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void onUndoVaccination(VaccineWrapper tag, View v) {
-//        super.onUndoVaccination(tag, v);
-//        StockRepository stockRepository = StockLibrary.getInstance().getStockRepository();
-//        StockJsonFormActivity updateVials = new StockJsonFormActivity();
-//        int vials;
-//            switch(tag.getDefaultName()){
-//                case "OPV 0":
-//                case "OPV 1":
-//                case "OPV 2":
-//                case "OPV 3":
-//                case "OPV 4": {
-//                    String stockName = "OPV";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    ++vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "PCV 1":
-//                case "PCV 2":
-//                case "PCV 3": {
-//                    String stockName = "PCV";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    ++vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "Penta 1":
-//                case "Penta 2":
-//                case "Penta 3": {
-//                    String stockName = "Penta";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    ++vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "BCG": {
-//                    String stockName = "BCG";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    ++vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "HepB": {
-//                    String stockName = "Hepatitis B";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    ++vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "Vitamin A 0":
-//                case "Vitamin A 1":{
-//                    String stockName = "Vitamin A";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    ++vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//                case "Measles 1":
-//                case "MR 1":{
-//                    String stockName = "M/MR";
-//                    vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
-//                    ++vials;
-//                    updateVials.refreshVialsBalance(stockName, vials);
-//                    break;
-//                }
-//
-//            }
-//        }
+    @Override
+    public void onVaccinateToday(ArrayList<VaccineWrapper> tags, View v) {
+        super.onVaccinateToday(tags, v);
+        for (int i = 0; i < tags.size(); i++) {
+            VaccineDeduction(tags.get(i).getName(), true);
+        }
+    }
+
+    @Override
+    public void onUndoVaccination(VaccineWrapper tag, View v) {
+        super.onUndoVaccination(tag, v);
+        VaccineDeduction(tag.getName(), false);
+    }
+
+    @Override
+    public void onVaccinateEarlier(ArrayList<VaccineWrapper> tags, View v) {
+        super.onVaccinateEarlier(tags, v);
+
+        for (int i = 0; i < tags.size(); i++) {
+            VaccineDeduction(tags.get(i).getName(), true);
+        }
+    }
 
     @Override
     protected int getToolbarId() {
@@ -364,4 +246,60 @@ public class ChildImmunizationActivity extends BaseChildImmunizationActivity {
         super.onResume();
         serviceGroupCanvasLL.setVisibility(View.GONE);
     }
+
+
+    public void VaccineDeduction(String vaccineName, Boolean status) {
+        String stockName;
+        Log.e("vaccine name", vaccineName);
+        switch (vaccineName) {
+            case "OPV 0":
+            case "OPV 1":
+            case "OPV 2":
+            case "OPV 3":
+            case "OPV 4":
+                stockName = "OPV";
+                deduction(stockName, status);
+                break;
+            case "PCV 1":
+            case "PCV 2":
+            case "PCV 3":
+                stockName = "PCV";
+                deduction(stockName, status);
+                break;
+            case "Penta 1":
+            case "Penta 2":
+            case "Penta 3":
+                stockName = "Penta";
+                deduction(stockName, status);
+                break;
+            case "BCG":
+                stockName = "BCG";
+                deduction(stockName, status);
+                break;
+            case "HepB":
+                stockName = "Hepatitis B";
+                deduction(stockName, status);
+                break;
+            case "Vitamin A 0":
+            case "Vitamin A 1":
+                stockName = "Vitamin A";
+                deduction(stockName, status);
+                break;
+            case "Measles 1":
+            case "MR 1":
+                stockName = "M/MR";
+                deduction(stockName, status);
+                break;
+        }
+    }
+
+    private void deduction(String stockName, boolean status) {
+        int vials = stockRepository.getBalanceFromNameAndDate(stockName, System.currentTimeMillis());
+        vials = status ? --vials : ++vials;
+        final int final_vials = vials;
+        AsyncTask.execute(
+                () -> stockRepository.addNewStockVials(stockName, String.valueOf(final_vials))
+        );
+    }
+
 }
