@@ -27,8 +27,8 @@ import java.util.concurrent.TimeUnit;
 
 public class StockHelperRepository extends StockExternalRepository {
 
-    public StockHelperRepository() {
-        super();
+    public StockHelperRepository(Repository repository) {
+        super(repository);
     }
 
     @Override

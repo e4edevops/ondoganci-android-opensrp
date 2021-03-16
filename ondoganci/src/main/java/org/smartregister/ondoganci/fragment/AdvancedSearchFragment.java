@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartregister.child.activity.BaseChildRegisterActivity;
 import org.smartregister.child.fragment.BaseAdvancedSearchFragment;
 import org.smartregister.child.presenter.BaseChildAdvancedSearchPresenter;
 import org.smartregister.child.util.Constants;
@@ -61,6 +62,8 @@ public class AdvancedSearchFragment extends BaseAdvancedSearchFragment {
         return super.onBackPressed();
     }
 
+
+
     @Override
     protected void populateFormViews(View view) {
         super.populateFormViews(view);
@@ -87,12 +90,19 @@ public class AdvancedSearchFragment extends BaseAdvancedSearchFragment {
         scanCardQRCodeView.setVisibility(View.VISIBLE);
         scanCardQRCodeView.setEnabled(false);
         scanCardQRCodeView.setOnClickListener(view1 -> {
-            if (getActivity() == null) {
-                return;
+//            if (getActivity() == null) {
+//                return;
+//            }
+//            Utils.showShortToast(getActivity(), "Implement card support");
+            if (getActivity() != null) {
+                BaseRegisterActivity baseRegisterActivity = (BaseRegisterActivity)getActivity();
+                baseRegisterActivity.startQrCodeScanner();
+                ((BaseChildRegisterActivity)getActivity()).setAdvancedSearch(true);
+                ((BaseChildRegisterActivity)getActivity()).setAdvancedSearchFormData(createSelectedFieldMap());
             }
-            Utils.showShortToast(getActivity(), "Implement card support");
         });
     }
+
 
     @Override
     public void populateSearchableFields(View view) {

@@ -1,4 +1,6 @@
-include ':ondoganci'
+rootProject.name = 'ondoganci-android'
+include ':ondoganci', ':stock', ':immunization'
+
 //
 //include ':opensrp-child'
 //project(":opensrp-child").projectDir = new File("../opensrp-client-child/opensrp-child")

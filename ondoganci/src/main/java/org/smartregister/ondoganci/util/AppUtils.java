@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.smartregister.child.util.Constants;
 import org.smartregister.child.util.Utils;
 import org.smartregister.commonregistry.AllCommonsRepository;
+
 import org.smartregister.domain.db.Client;
 import org.smartregister.domain.db.EventClient;
 import org.smartregister.location.helper.LocationHelper;

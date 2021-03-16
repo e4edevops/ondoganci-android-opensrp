@@ -2,7 +2,7 @@ package org.smartregister.ondoganci.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -13,12 +13,16 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.immunization.db.VaccineRepo;
 import org.smartregister.ondoganci.R;
 import org.smartregister.ondoganci.adapter.ExpandedListAdapter;
+import org.smartregister.ondoganci.contract.NavigationMenuContract;
 import org.smartregister.ondoganci.domain.NamedObject;
 import org.smartregister.ondoganci.model.ReportGroupingModel;
 import org.smartregister.ondoganci.receiver.CoverageDropoutBroadcastReceiver;
-import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 import org.smartregister.ondoganci.util.AppConstants;
+import org.smartregister.ondoganci.util.AppUtils;
+import org.smartregister.ondoganci.view.NavDrawerActivity;
+import org.smartregister.ondoganci.view.NavigationMenu;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,8 +33,10 @@ import java.util.Map;
 /**
  * Created by keyman on 08/01/18.
  */
-public class PentaCumulativeDropoutReportActivity extends BaseReportActivity {
+public class PentaCumulativeDropoutReportActivity extends BaseReportActivity implements NavDrawerActivity, NavigationMenuContract {
     private ExpandableListView expandableListView;
+
+    private NavigationMenu navigationMenu;
 
     @Nullable
     private String reportGrouping;
@@ -44,6 +50,8 @@ public class PentaCumulativeDropoutReportActivity extends BaseReportActivity {
         }
 
         setContentView(R.layout.activity_dropout_report_template);
+
+        createDrawer();
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -119,5 +127,42 @@ public class PentaCumulativeDropoutReportActivity extends BaseReportActivity {
         updateExpandableList(linkedHashMap);
     }
 
-}
+    //................................................
+    @Override
+    public NavigationMenu getNavigationMenu() {
+        return navigationMenu;
+    }
 
+
+    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        // get language from prefs
+        String lang = AppUtils.getLanguage(base.getApplicationContext());
+        super.attachBaseContext(AppUtils.setAppLocale(base, lang));
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void openDrawer() {
+        if (navigationMenu != null) {
+            navigationMenu.openDrawer();
+        }
+    }
+
+    private void createDrawer() {
+        WeakReference<PentaCumulativeDropoutReportActivity> weakReference = new WeakReference<>(this);
+        navigationMenu = NavigationMenu.getInstance(weakReference.get());
+    }
+
+    @Override
+    public void closeDrawer() {
+        if (navigationMenu != null) {
+            NavigationMenu.closeDrawer();
+        }
+    }
+
+}

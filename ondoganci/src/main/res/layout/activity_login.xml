@@ -134,6 +134,7 @@
                 android:layout_weight="8"
                 android:background="@drawable/login_button"
                 android:ems="10"
+                android:onClick="login"
                 android:shadowColor="#ffffff"
                 android:shadowDx="0"
                 android:shadowDy="1"

@@ -1,7 +1,9 @@
 package org.smartregister.ondoganci.presenter;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
@@ -24,10 +26,9 @@ import org.smartregister.view.contract.BaseLoginContract;
 
 import java.lang.ref.WeakReference;
 
-import timber.log.Timber;
-
 public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContract.Presenter {
 
+    private LoginConfiguration metadata;
     public LoginPresenter(BaseLoginContract.View loginView) {
         mLoginView = new WeakReference<>(loginView);
         mLoginInteractor = new LoginInteractor(this);
@@ -40,6 +41,8 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
         // do nothing
     }
 
+
+
     @Override
     public void processViewCustomizations() {
         try {
@@ -50,11 +53,11 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
             }
 
             ViewConfiguration loginView = OndoganciApplication.getJsonSpecHelper().getConfigurableView(jsonString);
-            LoginConfiguration metadata = (LoginConfiguration) loginView.getMetadata();
+            metadata = (LoginConfiguration) loginView.getMetadata();
             LoginConfiguration.Background background = metadata.getBackground();
-
             CheckBox showPasswordCheckBox = getLoginView().getActivityContext()
                     .findViewById(R.id.login_show_password_checkbox);
+
             TextView showPasswordTextView = getLoginView().getActivityContext()
                     .findViewById(R.id.login_show_password_text_view);
             if (!metadata.getShowPasswordCheckbox()) {
@@ -85,7 +88,7 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
             }
 
         } catch (Exception e) {
-            Timber.e(e);
+            Log.d("processView", e.getMessage());
         }
     }
 
@@ -93,4 +96,5 @@ public class LoginPresenter extends BaseLoginPresenter implements BaseLoginContr
     public boolean isServerSettingsSet() {
         return true;
     }
+
 }

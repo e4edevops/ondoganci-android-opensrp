@@ -3,10 +3,12 @@ package org.smartregister.ondoganci.application;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -41,6 +43,7 @@ import org.smartregister.immunization.repository.VaccineRepository;
 import org.smartregister.immunization.util.VaccinateActionUtils;
 import org.smartregister.immunization.util.VaccinatorUtils;
 import org.smartregister.location.helper.LocationHelper;
+import org.smartregister.ondoganci.R;
 import org.smartregister.ondoganci.receiver.CoverageDropoutBroadcastReceiver;
 import org.smartregister.ondoganci.receiver.Hia2ServiceBroadcastReceiver;
 import org.smartregister.ondoganci.receiver.VaccinatorAlarmReceiver;
@@ -52,6 +55,7 @@ import org.smartregister.ondoganci.repository.CumulativePatientRepository;
 import org.smartregister.ondoganci.repository.CumulativeRepository;
 import org.smartregister.ondoganci.repository.StockHelperRepository;
 import org.smartregister.ondoganci.repository.UniqueIdRepository;
+import org.smartregister.ondoganci.util.SaveSharedPreference;
 import org.smartregister.receiver.SyncStatusBroadcastReceiver;
 import org.smartregister.reporting.ReportingLibrary;
 import org.smartregister.repository.EventClientRepository;
@@ -86,7 +90,6 @@ import org.smartregister.view.receiver.TimeChangedBroadcastReceiver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -302,7 +305,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         LocationHelper.init(new ArrayList<>(Arrays.asList(BuildConfig.ALLOWED_LEVELS)), BuildConfig.DEFAULT_LOCATION);
         jsonSpecHelper = new JsonSpecHelper(this);
 
-        StockLibrary.init(context, getRepository(), new StockHelperRepository());
+        StockLibrary.init(context, getRepository(), new StockHelperRepository(getRepository()));
         //init Job Manager
         JobManager.create(this).addJobCreator(new AppJobCreator());
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -310,6 +313,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
     }
 
     private ChildMetadata getMetadata() {
+
         ChildMetadata metadata = new ChildMetadata(ChildFormActivity.class, ChildProfileActivity.class,
                 ChildImmunizationActivity.class, ChildRegisterActivity.class, true, new AppChildRegisterQueryProvider());
         metadata.updateChildRegister(AppConstants.JSON_FORM.CHILD_ENROLLMENT, AppConstants.TABLE_NAME.ALL_CLIENTS,
@@ -321,6 +325,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         metadata.setFieldsWithLocationHierarchy(new HashSet<>(Arrays.asList("Home_Facility", "Birth_Facility_Name", "Residential_Area")));
         metadata.setLocationLevels(AppUtils.getLocationLevels());
         metadata.setHealthFacilityLevels(AppUtils.getHealthFacilityLevels());
+
         return metadata;
     }
 
@@ -381,6 +386,11 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         getApplicationContext().startActivity(intent);
         context.userService().logoutSession();
+
+        SaveSharedPreference.setLoggedIn(getApplicationContext(), false);
+        SaveSharedPreference.setUsername(getApplicationContext(), "");
+        SaveSharedPreference.setPassword(getApplicationContext(), "");
+
     }
 
     @Override
@@ -388,7 +398,6 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         try {
             if (repository == null) {
                 repository = new OndoganciRepository(getInstance().getApplicationContext(), context);
-                stockRepository();
             }
         } catch (UnsatisfiedLinkError e) {
             Timber.e(e, "OndoganciApplication --> getRepository");
@@ -434,14 +443,16 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
     @Override
     public void onTimeChanged() {
-        context.userService().forceRemoteLogin();
-        logoutCurrentUser();
+        Toast.makeText(this, R.string.device_time_changed, Toast.LENGTH_LONG).show();
+//        context.userService().forceRemoteLogin();
+//        logoutCurrentUser();
     }
 
     @Override
     public void onTimeZoneChanged() {
-        context.userService().forceRemoteLogin();
-        logoutCurrentUser();
+        Toast.makeText(this, R.string.device_timezone_changed, Toast.LENGTH_LONG).show();
+//        context.userService().forceRemoteLogin();
+//        logoutCurrentUser();
     }
 
     public Context context() {
@@ -480,23 +491,28 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
     @VisibleForTesting
     protected void fixHardcodedVaccineConfiguration() {
-        VaccineRepo.Vaccine[] vaccines = ImmunizationLibrary.getInstance().getVaccines();
+        try {
+            VaccineRepo.Vaccine[] vaccines = ImmunizationLibrary.getInstance().getVaccines();
 
-        HashMap<String, VaccineDuplicate> replacementVaccines = new HashMap<>();
-        replacementVaccines.put("BCG 2", new VaccineDuplicate("BCG 2", VaccineRepo.Vaccine.bcg, 1825, 0, 15, "child"));
+            HashMap<String, VaccineDuplicate> replacementVaccines = new HashMap<>();
+            replacementVaccines.put("BCG 2", new VaccineDuplicate("BCG 2", VaccineRepo.Vaccine.bcg, 1825, 0, 15, "child"));
 
-        for (VaccineRepo.Vaccine vaccine : vaccines) {
-            if (replacementVaccines.containsKey(vaccine.display())) {
-                VaccineDuplicate vaccineDuplicate = replacementVaccines.get(vaccine.display());
-                vaccine.setCategory(vaccineDuplicate.category());
-                vaccine.setExpiryDays(vaccineDuplicate.expiryDays());
-                vaccine.setMilestoneGapDays(vaccineDuplicate.milestoneGapDays());
-                vaccine.setPrerequisite(vaccineDuplicate.prerequisite());
-                vaccine.setPrerequisiteGapDays(vaccineDuplicate.prerequisiteGapDays());
+
+            for (VaccineRepo.Vaccine vaccine : vaccines) {
+                if (replacementVaccines.containsKey(vaccine.display())) {
+                    VaccineDuplicate vaccineDuplicate = replacementVaccines.get(vaccine.display());
+                    vaccine.setCategory(vaccineDuplicate.category());
+                    vaccine.setExpiryDays(vaccineDuplicate.expiryDays());
+                    vaccine.setMilestoneGapDays(vaccineDuplicate.milestoneGapDays());
+                    vaccine.setPrerequisite(vaccineDuplicate.prerequisite());
+                    vaccine.setPrerequisiteGapDays(vaccineDuplicate.prerequisiteGapDays());
+                }
             }
-        }
 
-        ImmunizationLibrary.getInstance().setVaccines(vaccines);
+            ImmunizationLibrary.getInstance().setVaccines(vaccines);
+        }catch(Exception e){
+            Log.d("HardcodedVaccine", e.getMessage());
+        }
     }
 
     public DailyTalliesRepository dailyTalliesRepository() {
@@ -530,7 +546,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
 
     public StockRepository stockRepository() {
         if (stockRepository == null) {
-            stockRepository = new StockRepository();
+            stockRepository = new StockRepository(getRepository());
         }
         return stockRepository;
     }
@@ -622,5 +638,7 @@ public class OndoganciApplication extends DrishtiApplication implements TimeChan
         VaccinatorAlarmReceiver.setAlarm(context, BuildConfig.IMAGE_UPLOAD_MINUTES, AppConstants.ServiceType.IMAGE_UPLOAD);
         VaccinatorAlarmReceiver.setAlarm(context, BuildConfig.PULL_UNIQUE_IDS_MINUTES, AppConstants.ServiceType.PULL_UNIQUE_IDS);
     }
+
+
 }
 

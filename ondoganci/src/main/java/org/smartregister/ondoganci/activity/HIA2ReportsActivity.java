@@ -1,22 +1,26 @@
 package org.smartregister.ondoganci.activity;
 
+import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.smartregister.child.util.JsonFormUtils;
 import org.smartregister.domain.Response;
+
+import org.smartregister.ondoganci.fragment.DraftMonthlyFragment;
 import org.smartregister.ondoganci.service.HIA2Service;
 import org.smartregister.reporting.domain.TallyStatus;
 import org.smartregister.reporting.event.IndicatorTallyEvent;
@@ -39,7 +45,6 @@ import org.smartregister.ondoganci.adapter.ReportsSectionsPagerAdapter;
 import org.smartregister.ondoganci.application.OndoganciApplication;
 import org.smartregister.ondoganci.domain.MonthlyTally;
 import org.smartregister.ondoganci.domain.ReportHia2Indicator;
-import org.smartregister.ondoganci.fragment.DraftMonthlyFragment;
 import org.smartregister.ondoganci.fragment.SendMonthlyDraftDialogFragment;
 import org.smartregister.ondoganci.model.ReportGroupingModel;
 import org.smartregister.ondoganci.repository.MonthlyTalliesRepository;
@@ -83,12 +88,12 @@ public class HIA2ReportsActivity extends AppCompatActivity {
     public static final String REPORT_NAME = "HIA2";
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
+     * The {@link PagerAdapter} that will provide
      * fragments for each of the sections. We use a
      * {@link FragmentPagerAdapter} derivative, which will keep every
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     * {@link FragmentStatePagerAdapter}.
      */
     private ReportsSectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -199,6 +204,7 @@ public class HIA2ReportsActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_GET_JSON && resultCode == RESULT_OK) {

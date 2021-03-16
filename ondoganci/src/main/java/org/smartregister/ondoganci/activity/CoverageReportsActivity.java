@@ -2,10 +2,10 @@ package org.smartregister.ondoganci.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,22 +14,24 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.tuple.Triple;
-import org.smartregister.child.activity.BaseActivity;
-import org.smartregister.domain.FetchStatus;
 import org.smartregister.ondoganci.R;
-import org.smartregister.child.toolbar.LocationSwitcherToolbar;
+import org.smartregister.ondoganci.contract.NavigationMenuContract;
 import org.smartregister.ondoganci.model.ReportGroupingModel;
 import org.smartregister.ondoganci.util.AppConstants;
+import org.smartregister.ondoganci.util.AppUtils;
+import org.smartregister.ondoganci.view.NavDrawerActivity;
+import org.smartregister.ondoganci.view.NavigationMenu;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by keyman on 18/12/17.
  */
-public class CoverageReportsActivity extends AppCompatActivity {
+public class CoverageReportsActivity extends AppCompatActivity implements NavDrawerActivity, NavigationMenuContract {
 
+    private NavigationMenu navigationMenu;
     @Nullable
     private String reportGrouping;
 
@@ -38,6 +40,7 @@ public class CoverageReportsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coverage_reports);
 
+        createDrawer();
         Intent intent = getIntent();
         if (intent != null) {
             reportGrouping = intent.getStringExtra(AppConstants.IntentKey.REPORT_GROUPING);
@@ -104,6 +107,44 @@ public class CoverageReportsActivity extends AppCompatActivity {
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         LinearLayout hia2 = (LinearLayout) drawer.findViewById(R.id.coverage_reports);
         hia2.setBackgroundColor(getResources().getColor(R.color.tintcolor));
+    }
+
+    //................................................
+    @Override
+    public NavigationMenu getNavigationMenu() {
+        return navigationMenu;
+    }
+
+
+    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        // get language from prefs
+        String lang = AppUtils.getLanguage(base.getApplicationContext());
+        super.attachBaseContext(AppUtils.setAppLocale(base, lang));
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void openDrawer() {
+        if (navigationMenu != null) {
+            navigationMenu.openDrawer();
+        }
+    }
+
+    private void createDrawer() {
+        WeakReference<CoverageReportsActivity> weakReference = new WeakReference<>(this);
+        navigationMenu = NavigationMenu.getInstance(weakReference.get());
+    }
+
+    @Override
+    public void closeDrawer() {
+        if (navigationMenu != null) {
+            NavigationMenu.closeDrawer();
+        }
     }
 
 }

@@ -568,6 +568,36 @@
         }
       },
       {
+        "name": "Vitamin A 0",
+        "type": "Vitamin A",
+        "openmrs_date": {
+          "parent_entity": "6754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "765AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+9m",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+5y"
+            }
+          ]
+        }
+      },
+      {
         "name": "MenA",
         "type": "MenA",
         "openmrs_date": {
@@ -593,6 +623,43 @@
             {
               "reference": "dob",
               "offset": "+2y"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "name": "15 Months",
+    "id": "Fifteen_Months",
+    "days_after_birth_due": 444,
+    "vaccines": [
+      {
+        "name": "Vitamin A 1",
+        "type": "Vitamin A",
+        "openmrs_date": {
+          "parent_entity": "6754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1410AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+        },
+        "openmrs_calculate": {
+          "parent_entity": "6754AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "entity": "concept",
+          "entity_id": "1418AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "calculation": 1
+        },
+        "schedule": {
+          "due": [
+            {
+              "reference": "dob",
+              "offset": "+15m",
+              "window": "+10d"
+            }
+          ],
+          "expiry": [
+            {
+              "reference": "dob",
+              "offset": "+6y"
             }
           ]
         }

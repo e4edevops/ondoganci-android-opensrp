@@ -1,8 +1,9 @@
 package org.smartregister.ondoganci.activity;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.view.MenuItem;
+
+import androidx.fragment.app.Fragment;
 
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.domain.Form;
@@ -26,8 +27,9 @@ import org.smartregister.ondoganci.view.NavigationMenu;
 import org.smartregister.view.fragment.BaseRegisterFragment;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
-public class ChildRegisterActivity extends BaseChildRegisterActivity implements NavDrawerActivity, NavigationMenuContract {
+public class ChildRegisterActivity extends BaseChildRegisterActivity implements NavDrawerActivity, NavigationMenuContract{
 
     private NavigationMenu navigationMenu;
 
@@ -82,6 +84,12 @@ public class ChildRegisterActivity extends BaseChildRegisterActivity implements 
         super.onResumption();
         createDrawer();
     }
+
+//    @Override
+//    public void startFormActivity(String s, String s1, Map<String, String> map) {
+//        //todo
+//    }
+
 
     private void createDrawer() {
         WeakReference<ChildRegisterActivity> weakReference = new WeakReference<>(this);

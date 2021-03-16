@@ -1,4 +1,4 @@
-<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
@@ -28,4 +28,4 @@
         layout="@layout/filter_cohort_coverage_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</android.support.design.widget.AppBarLayout>
+</com.google.android.material.appbar.AppBarLayout>

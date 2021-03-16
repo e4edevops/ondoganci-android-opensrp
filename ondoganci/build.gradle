@@ -3,23 +3,40 @@ buildscript {
         google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
-
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:$androidToolsBuildGradle"
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
-        classpath 'io.fabric.tools:gradle:1.30.0'
+        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:$coverallsVersion"
+        classpath 'io.fabric.tools:gradle:1.31.2'
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+apply plugin: 'org.smartregister.gradle.jarjar'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'io.fabric'
+apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 
 jacoco {
     toolVersion = jacocoVersion
 }
+
+//Properties properties = new Properties()
+//if (project.rootProject.file("local.properties").exists()) {
+//    properties.load(project.rootProject.file("local.properties").newDataInputStream())
+//}
+//
+//ext.getLocalProperty = { key ->
+//    if (properties != null && properties.containsKey(key)) {
+//        println(key + ": " + properties[key])
+//        return properties[key]
+//    } else {
+//        return "\"sample_property_value\""
+//    }
+//}
 
 android {
     useLibrary 'org.apache.http.legacy'
@@ -40,7 +57,10 @@ android {
         buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
         buildConfigField "boolean", "IS_SYNC_SETTINGS", "false"
         buildConfigField "long", "EVENT_VERSION", System.currentTimeMillis() + "L"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "boolean", "USE_HIA2_DIRECTLY", "true"
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+//        javaCompileOptions.annotationProcessorOptions.includeCompileClasspath true
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -59,18 +79,25 @@ android {
         abortOnError false
     }
 
+//    androidExtensions {
+//        experimental = true
+//    }
+
     compileOptions {
+        // Flag to enable support for the new language APIs
+//        coreLibraryDesugaringEnabled true
+        // Sets Java compatibility to Java 8
         sourceCompatibility 1.8
         targetCompatibility 1.8
     }
 
     buildTypes {
-
         release {
             minifyEnabled false
             zipAlignEnabled true
-
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rule.pro'
+            versionNameSuffix "-release"
+//            resValue "string", 'opensrp_url', '"https://ondoganci.e4eweb.space"'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
@@ -92,12 +119,14 @@ android {
             buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
+//            buildConfigField "String", "OAUTH_CLIENT_ID", getLocalProperty("oauth.client.id.release")
+//            buildConfigField "String", "OAUTH_CLIENT_SECRET", getLocalProperty("oauth.client.secret.release")
         }
 
         debug {
-
             versionNameSuffix "-debug"
-
+//            resValue "string", 'opensrp_url', '"https://ondoganci.e4eweb.space"'
+            resValue "string", 'opensrp_url', '"http://104.225.217.132:8080/opensrp"'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '250'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
             buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
@@ -120,87 +149,89 @@ android {
             buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
             buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
             testCoverageEnabled true
+//            buildConfigField "String", "OAUTH_CLIENT_ID", getLocalProperty("oauth.client.id.debug")
+//            buildConfigField "String", "OAUTH_CLIENT_SECRET", getLocalProperty("oauth.client.secret.debug")
         }
 
-        releaseDebug {
-            minifyEnabled false
-            zipAlignEnabled true
+//        releaseDebug {
+//            minifyEnabled false
+//            zipAlignEnabled true
+//
+//            versionNameSuffix "-internal-release"
+//            debuggable true
+//            signingConfig signingConfigs.debug
+//
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rule.pro'
+//            resValue "string", 'opensrp_url', "https://ondoganci.e4eweb.space"
+//            buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '10'
+//            buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '10'
+//            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
+//            buildConfigField "int", "VACCINE_SYNC_TIME", '0'
+//            buildConfigField "int", "DATABASE_VERSION", '11'
+//            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
+//            buildConfigField "boolean", "TIME_CHECK", "true"
+//            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
+//            buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
+//            buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '180'
+//            buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '180'
+//            buildConfigField "int", "VIEW_SYNC_CONFIGURATIONS_MINUTES", '15'
+//            buildConfigField "int", "CLIENT_SETTINGS_SYNC_MINUTES", '15'
+//            buildConfigField "int", "GROWTH_MONITORING_SYNC_TIME", '15'
+//            buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
+//            buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
+//            buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
+//            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+//            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+//            buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
+//            buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
+//        }
 
-            versionNameSuffix "-internal-release"
-            debuggable true
-            signingConfig signingConfigs.debug
-
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rule.pro'
-            resValue "string", 'opensrp_url', '"http://18.224.109.34:8080/opensrp"'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '10'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '10'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
-            buildConfigField "int", "VACCINE_SYNC_TIME", '0'
-            buildConfigField "int", "DATABASE_VERSION", '11'
-            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
-            buildConfigField "boolean", "TIME_CHECK", "true"
-            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
-            buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
-            buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '180'
-            buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '180'
-            buildConfigField "int", "VIEW_SYNC_CONFIGURATIONS_MINUTES", '15'
-            buildConfigField "int", "CLIENT_SETTINGS_SYNC_MINUTES", '15'
-            buildConfigField "int", "GROWTH_MONITORING_SYNC_TIME", '15'
-            buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
-            buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
-            buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
-            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
-            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
-            buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
-            buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
-        }
-
-        preview {
-            versionNameSuffix "-beta"
-            minifyEnabled false
-            zipAlignEnabled true
-            debuggable true
-            signingConfig signingConfigs.debug
-
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rule.pro'
-            resValue "string", 'opensrp_url', '"http://18.224.109.34:8080/opensrp"'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '10'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
-            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
-            buildConfigField "int", "VACCINE_SYNC_TIME", '0'
-            buildConfigField "int", "DATABASE_VERSION", '11'
-            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
-            buildConfigField "boolean", "TIME_CHECK", "true"
-            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
-            buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
-            buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '180'
-            buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '180'
-            buildConfigField "int", "VIEW_SYNC_CONFIGURATIONS_MINUTES", '15'
-            buildConfigField "int", "CLIENT_SETTINGS_SYNC_MINUTES", '15'
-            buildConfigField "int", "GROWTH_MONITORING_SYNC_TIME", '15'
-            buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
-            buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
-            buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
-            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
-            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
-            buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
-            buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
-        }
+//        preview {
+//            versionNameSuffix "-beta"
+//            minifyEnabled false
+//            zipAlignEnabled true
+//            debuggable true
+//            signingConfig signingConfigs.debug
+//
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rule.pro'
+//            resValue "string", 'opensrp_url', '"https://ondoganci.e4eweb.space"'
+//            buildConfigField "int", "OPENMRS_UNIQUE_ID_INITIAL_BATCH_SIZE", '10'
+//            buildConfigField "int", "OPENMRS_UNIQUE_ID_BATCH_SIZE", '100'
+//            buildConfigField "int", "OPENMRS_UNIQUE_ID_SOURCE", '2'
+//            buildConfigField "int", "VACCINE_SYNC_TIME", '0'
+//            buildConfigField "int", "DATABASE_VERSION", '11'
+//            buildConfigField "long", "MAX_SERVER_TIME_DIFFERENCE", "1800000l"
+//            buildConfigField "boolean", "TIME_CHECK", "true"
+//            buildConfigField "int", "DATA_SYNC_DURATION_MINUTES", '15'
+//            buildConfigField "int", "VACCINE_SYNC_PROCESSING_MINUTES", '30'
+//            buildConfigField "int", "IMAGE_UPLOAD_MINUTES", '180'
+//            buildConfigField "int", "PULL_UNIQUE_IDS_MINUTES", '180'
+//            buildConfigField "int", "VIEW_SYNC_CONFIGURATIONS_MINUTES", '15'
+//            buildConfigField "int", "CLIENT_SETTINGS_SYNC_MINUTES", '15'
+//            buildConfigField "int", "GROWTH_MONITORING_SYNC_TIME", '15'
+//            buildConfigField "int", "RECURRING_SERVICES_SYNC_PROCESSING_MINUTES", '30'
+//            buildConfigField "int", "DAILY_TALLIES_GENERATION_MINUTES", '60'
+//            buildConfigField "int", "COVERAGE_DROPOUT_GENERATION_MINUTES", '60'
+//            buildConfigField "String[]", "LOCATION_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+//            buildConfigField "String[]", "HEALTH_FACILITY_LEVELS", '{"Country", "Province", "District", "County", "Sub-county", "Health Facility"}'
+//            buildConfigField "String[]", "ALLOWED_LEVELS", '{"Health Facility"}'
+//            buildConfigField "String", "DEFAULT_LOCATION", '"Health Facility"'
+//        }
     }
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE.md'
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE.md'
+        exclude 'META-INF/NOTICE'
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
-        exclude 'META-INF/LICENSE.md'
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
-        exclude 'LICENSE.txt'
     }
 
     testOptions {
@@ -208,10 +239,18 @@ android {
             returnDefaultValues = true
             includeAndroidResources = true
         }
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+                excludes = ['jdk.internal.*']
+            }
+            jvmArgs '-noverify'
+        }
     }
-    dataBinding {
-        enabled = true
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
+    android.buildFeatures.dataBinding
 }
 
 tasks.withType(Test) {
@@ -220,17 +259,22 @@ tasks.withType(Test) {
 
 allprojects {
     repositories {
-        flatDir{
+        flatDir {
             dir 'aar'
         }
     }
 }
 
 dependencies {
+    implementation fileTree(dir: "./build/libs", include: ['*.jar'])
+    jarJar 'com.ibm.fhir:fhir-model:4.2.3'
+//    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+
     implementation 'com.evrencoskun.library:tableview:0.8.8'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.15'
 
-//    api('org.smartregister:opensrp-client-core:1.10.1-SNAPSHOT@aar') {
+//    api('org.smartregister:opensrp-client-core:4.1.6-SNAPSHOT@aar') {
+//        api('org.smartregister:opensrp-client-core:1.10.1-SNAPSHOT@aar') {
     api(name: 'opensrp-app-debug', ext: 'aar') {
         transitive = true
         exclude group: 'com.github.bmelnychuk', module: 'atv'
@@ -238,6 +282,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'com.rengwuxian.materialedittext', module: 'library'
     }
 
@@ -253,7 +298,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 
-    implementation('org.smartregister:opensrp-client-immunization:1.4.46-SNAPSHOT@aar') {
+    implementation(project(":immunization")) {
+//    implementation('org.smartregister:opensrp-client-immunization:1.4.46-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
@@ -262,7 +308,8 @@ dependencies {
     }
 
 
-    implementation('org.smartregister:opensrp-client-native-form:1.14.1-SNAPSHOT@aar') {
+    implementation('org.smartregister:opensrp-client-native-form:1.14.6.1-SNAPSHOT@aar') {
+//        implementation('org.smartregister:opensrp-client-native-form:1.14.1-SNAPSHOT@aar') {
         transitive = true
         exclude group: 'id.zelory', module: 'compressor'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
@@ -288,7 +335,7 @@ dependencies {
 
 //    implementation('org.smartregister:opensrp-client-growth-monitoring:1.1.23-SNAPSHOT@aar') {
     implementation(name: 'opensrp-growth-monitoring-debug', ext: 'aar') {
-            transitive = true
+        transitive = true
         exclude group: 'id.zelory', module: 'compressor'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
         exclude group: 'com.android.support', module: 'design'
@@ -306,16 +353,19 @@ dependencies {
     }
 
 //    implementation('org.smartregister:opensrp-client-stock:1.1.0-SNAPSHOT@aar') {
-    implementation(name: 'stock-debug', ext: 'aar') {
+//    implementation(name: 'stock-debug', ext: 'aar') {
+    implementation(project(":stock")) {
         transitive = true
         exclude group: 'id.zelory', module: 'compressor'
         exclude group: 'org.smartregister', module: 'opensrp-client-core'
+        exclude group: 'com.ibm.fhir', module: 'fhir-model'
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'org.smartregister', module: 'opensrp-client-native-form'
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
 
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     annotationProcessor 'com.jakewharton:butterknife:10.2.0'
     implementation 'net.zetetic:android-database-sqlcipher:4.1.3@aar'
     implementation 'commons-validator:commons-validator:1.6'
@@ -333,32 +383,29 @@ dependencies {
     implementation 'com.evernote:android-job:1.2.6'
     implementation 'com.github.lecho:hellocharts-android:v1.5.8'
     implementation 'id.zelory:compressor:2.1.0'
-    implementation('com.android.support:design:28.0.0') {
+    implementation('com.google.android.material:material:1.0.0') {
         exclude group: 'com.android.support', module: 'recyclerview-v7'
         exclude group: 'com.android.support', module: 'cardview-v7'
     }
     implementation 'com.mcxiaoke.volley:library:1.0.19'
 
     implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.4'
-    implementation 'com.android.support:leanback-v17:28.0.0'
-
+    implementation 'androidx.leanback:leanback:1.0.0'
     implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+//    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.24'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'org.jeasy:easy-rules-core:3.3.0'
     implementation 'org.jeasy:easy-rules-mvel:3.3.0'
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.24'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
-        transitive = true
-    }
+//    implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
+//        transitive = true
+//    }
     implementation group: 'io.fabric.sdk.android', name: 'fabric', version: '1.4.8'
     implementation 'com.jjoe64:graphview:4.2.1'
-
-
     implementation "org.apache.httpcomponents:httpmime:4.2.3"
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.10'
     implementation group: 'commons-io', name: 'commons-io', version: '2.4'
@@ -383,7 +430,6 @@ dependencies {
     }
 
 
-
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.2'
 
     testImplementation 'junit:junit:4.13'
@@ -402,7 +448,7 @@ dependencies {
 
     testImplementation 'org.apache.maven:maven-ant-tasks:2.1.3'
     testImplementation 'org.skyscreamer:jsonassert:1.5.0'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
@@ -415,15 +461,32 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
     getReports().getXml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/merged.xml"))
     getReports().getHtml().setDestination(file("${buildDir}/reports/jacoco/jacocoRootReport/html"))
 
-    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*', '**/*$ViewBinder*.*']
-    def debugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes/", excludes: fileFilter)
-    def mainSrc = "$project.projectDir/src/main/java"
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/*$ViewInjector*.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/ZeirApplication*.*',
+            '**/AppSyncConfiguration*.*',
+            '**Constant*.*',
+            '**/*$ViewBinder*.*']
 
-    sourceDirectories.setFrom(files([mainSrc]))
-    classDirectories.setFrom(([debugTree]))
-    executionData.setFrom(fileTree(dir: project.buildDir, includes: [
-            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ]))
+    def javaDebugTree = fileTree(dir: "$project.buildDir/intermediates/javac/debug/classes/", excludes: excludes)
+    def kotlinDebugTree = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/debug", excludes: excludes)
+    def mainSrc = "$project.projectDir/src/main/java"
+    def kotlinSrc = "$project.projectDir/src/main/kotlin"
+
+    sourceDirectories.setFrom(files([mainSrc, kotlinSrc]))
+    classDirectories.setFrom(files([javaDebugTree, kotlinDebugTree]))
+
+    executionData.setFrom(
+            fileTree(dir: project.buildDir, includes: [
+                    'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+            ])
+    )
 }
 
 coveralls {

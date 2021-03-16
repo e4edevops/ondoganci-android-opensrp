@@ -194,6 +194,7 @@ public class AppConstants {
 
     public class IntentKeyUtil {
         public static final String IS_REMOTE_LOGIN = "is_remote_login";
+//        public static final String IS_LOCAL_LOGIN = "is_local_login";
     }
 
     public interface RegisterType {

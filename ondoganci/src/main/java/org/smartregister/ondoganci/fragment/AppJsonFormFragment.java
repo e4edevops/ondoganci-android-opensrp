@@ -1,11 +1,11 @@
 package org.smartregister.ondoganci.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.vijay.jsonwizard.fragments.JsonFormFragment;
 import com.vijay.jsonwizard.presenters.JsonFormFragmentPresenter;
@@ -179,6 +180,7 @@ public class AppJsonFormFragment extends JsonFormFragment {
         }
     }
 
+    @SuppressLint("WrongConstant")
     private void tapToView(final HashMap<CommonPersonObject, List<CommonPersonObject>> map) {
         snackbar = Snackbar
                 .make(getMainView(), map.size() + getString(R.string.mother_guardian_matches), Snackbar.LENGTH_INDEFINITE);
@@ -187,6 +189,7 @@ public class AppJsonFormFragment extends JsonFormFragment {
 
     }
 
+    @SuppressLint("WrongConstant")
     private void clearView() {
         snackbar = Snackbar
                 .make(getMainView(), "Undo Lookup.", Snackbar.LENGTH_INDEFINITE);
@@ -214,12 +217,12 @@ public class AppJsonFormFragment extends JsonFormFragment {
         snackbarView.setMinimumHeight(Float.valueOf(textSize).intValue());
         snackbarView.setBackgroundResource(R.color.snackbar_background_yellow);
 
-        final Button actionView = snackbarView.findViewById(android.support.design.R.id.snackbar_action);
+        final Button actionView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_action);
         actionView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         actionView.setGravity(Gravity.CENTER);
         actionView.setTextColor(getResources().getColor(R.color.text_black));
 
-        TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
         textView.setGravity(Gravity.CENTER);
         textView.setOnClickListener(v -> actionView.performClick());
@@ -334,7 +337,7 @@ public class AppJsonFormFragment extends JsonFormFragment {
         } else {
             String errorMessage = getString(R.string.fill_form_error_msg);
 
-            final Snackbar snackbar = Snackbar
+            @SuppressLint("WrongConstant") final Snackbar snackbar = Snackbar
                     .make(getMainView(), errorMessage, Snackbar.LENGTH_LONG);
             snackbar.setAction(R.string.close, new View.OnClickListener() {
                 @Override
@@ -346,7 +349,7 @@ public class AppJsonFormFragment extends JsonFormFragment {
             // Changing message text color
             snackbar.setActionTextColor(Color.WHITE);
             View sbView = snackbar.getView();
-            TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+            TextView textView = sbView.findViewById(com.google.android.material.R.id.snackbar_text);
             textView.setTextColor(Color.WHITE);
 
             snackbar.show();

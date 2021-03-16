@@ -1,5 +1,7 @@
 package org.smartregister.ondoganci.interactors;
 
+import androidx.annotation.Nullable;
+
 import com.vijay.jsonwizard.constants.JsonFormConstants;
 import com.vijay.jsonwizard.interactors.JsonFormInteractor;
 

@@ -2,8 +2,10 @@ package org.smartregister.ondoganci.application;
 
 import org.smartregister.SyncConfiguration;
 import org.smartregister.SyncFilter;
-import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.ondoganci.activity.LoginActivity;
 import org.smartregister.ondoganci.BuildConfig;
+import org.smartregister.repository.AllSharedPreferences;
+import org.smartregister.view.activity.BaseLoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,5 +68,20 @@ public class AppSyncConfiguration extends SyncConfiguration {
     public String getTopAllowedLocationLevel() {
         return null;
     }
+
+//    @Override
+//    public String getOauthClientId() {
+//        return BuildConfig.OAUTH_CLIENT_ID;
+//    }
+
+//    @Override
+//    public String getOauthClientSecret() {
+//        return BuildConfig.OAUTH_CLIENT_SECRET;
+//    }
+//
+//    @Override
+//    public Class<? extends BaseLoginActivity> getAuthenticationActivity() {
+//        return LoginActivity.class;
+//    }
 }
 

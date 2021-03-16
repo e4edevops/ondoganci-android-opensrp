@@ -2,16 +2,16 @@ package org.smartregister.ondoganci.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.tuple.Triple;
 import org.smartregister.immunization.db.VaccineRepo;
 import org.smartregister.ondoganci.R;
 import org.smartregister.ondoganci.application.OndoganciApplication;
+import org.smartregister.ondoganci.contract.NavigationMenuContract;
 import org.smartregister.ondoganci.domain.CoverageHolder;
 import org.smartregister.ondoganci.domain.Cumulative;
 import org.smartregister.ondoganci.domain.CumulativeIndicator;
@@ -20,8 +20,8 @@ import org.smartregister.ondoganci.model.ReportGroupingModel;
 import org.smartregister.ondoganci.receiver.CoverageDropoutBroadcastReceiver;
 import org.smartregister.ondoganci.repository.CumulativeIndicatorRepository;
 import org.smartregister.ondoganci.repository.CumulativeRepository;
-import org.smartregister.child.toolbar.LocationSwitcherToolbar;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,14 +30,19 @@ import java.util.Map;
 
 import org.smartregister.child.util.Utils;
 import org.smartregister.ondoganci.util.AppConstants;
+import org.smartregister.ondoganci.util.AppUtils;
+import org.smartregister.ondoganci.view.NavDrawerActivity;
+import org.smartregister.ondoganci.view.NavigationMenu;
 
 /**
  * Created by keyman on 21/12/17.
  */
-public class AnnualCoverageReportOndoGanciActivity extends BaseReportActivity {
+public class AnnualCoverageReportOndoGanciActivity extends BaseReportActivity implements NavDrawerActivity, NavigationMenuContract {
 
     @Nullable
     private String reportGrouping;
+
+    private NavigationMenu navigationMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,7 @@ public class AnnualCoverageReportOndoGanciActivity extends BaseReportActivity {
 
         setContentView(R.layout.activity_annual_coverage_report_ondo);
 
+        createDrawer();
         Intent intent = getIntent();
         if (intent != null) {
             reportGrouping = intent.getStringExtra(AppConstants.IntentKey.REPORT_GROUPING);
@@ -224,6 +230,44 @@ public class AnnualCoverageReportOndoGanciActivity extends BaseReportActivity {
         setHolderSize(pair.second);
         updateZeirNumber();
         updateReportList(pair.first);
+    }
+
+    //................................................
+    @Override
+    public NavigationMenu getNavigationMenu() {
+        return navigationMenu;
+    }
+
+
+    @Override
+    protected void attachBaseContext(android.content.Context base) {
+        // get language from prefs
+        String lang = AppUtils.getLanguage(base.getApplicationContext());
+        super.attachBaseContext(AppUtils.setAppLocale(base, lang));
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void openDrawer() {
+        if (navigationMenu != null) {
+            navigationMenu.openDrawer();
+        }
+    }
+
+    private void createDrawer() {
+        WeakReference<AnnualCoverageReportOndoGanciActivity> weakReference = new WeakReference<>(this);
+        navigationMenu = NavigationMenu.getInstance(weakReference.get());
+    }
+
+    @Override
+    public void closeDrawer() {
+        if (navigationMenu != null) {
+            NavigationMenu.closeDrawer();
+        }
     }
 
 }
